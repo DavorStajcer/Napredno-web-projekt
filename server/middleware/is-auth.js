@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
-import authConfig from "../config/auth.config.js";
+const authConfig = require("../config/auth.config.js");
 
 const { TokenExpiredError } = jwt;
 
@@ -36,4 +36,4 @@ const isAuth = async (req, res, next) => {
   });
 };
 
-export default isAuth;
+module.exports = isAuth;

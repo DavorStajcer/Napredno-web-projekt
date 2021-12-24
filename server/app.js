@@ -1,7 +1,7 @@
-import express from "express";
-import mongoose from "mongoose";
+const express = require("express");
+const mongoose = require("mongoose");
 
-import authRoutes from "./routes/auth.js";
+const authRoutes = require("./routes/auth.js");
 
 const MONGODB_URI =
   "mongodb+srv://sandro:z6hE16hJP6wXx0zl@cluster0.zutnl.mongodb.net/OKPP-event-planner";

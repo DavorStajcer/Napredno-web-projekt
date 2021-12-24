@@ -1,9 +1,7 @@
-import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid";
+const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
-import authConfig from "../config/auth.config.js";
-
-const Schema = mongoose.Schema;
+const authConfig = require("../config/auth.config.js");
 
 const refreshTokenSchema = new mongoose.Schema({
   token: String,
@@ -40,4 +38,4 @@ refreshTokenSchema.statics.verifyExpiration = (token) => {
   return token.expiryDate.getTime() < new Date().getTime();
 };
 
-export default mongoose.model("RefreshToken", refreshTokenSchema);
+module.exports = mongoose.model("RefreshToken", refreshTokenSchema);

@@ -1,10 +1,10 @@
-import bcrypt from "bcrypt";
-import expressValidator from "express-validator";
-import jwt from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const expressValidator = require("express-validator");
+const jwt = require("jsonwebtoken");
 
-import authConfig from "../config/auth.config.js";
-import User from "../models/user.js";
-import RefreshToken from "../models/jwt-refresh-token.js";
+const authConfig = require("../config/auth.config.js");
+const User = require("../models/user.js");
+const RefreshToken = require("../models/jwt-refresh-token.js");
 
 const { validationResult } = expressValidator;
 
@@ -81,7 +81,7 @@ const postRegisterUser = async (req, res, next) => {
     }
   };
 
-  export default {
+  module.exports = {
     postRegisterUser,
     postLoginUser
   };

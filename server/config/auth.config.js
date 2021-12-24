@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     secret: "supersecret",
     // jwtExpiration: 3600,           // 1 hour
     // jwtRefreshExpiration: 86400,   // 24 hours
