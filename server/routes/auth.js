@@ -9,4 +9,6 @@ router.post("/register-user", authContoller.postRegisterUser);
 
 router.post("/login", authContoller.postLoginUser);
 
+router.post("/refresh-token", authContoller.postRefreshToken);
+
 module.exports = router;

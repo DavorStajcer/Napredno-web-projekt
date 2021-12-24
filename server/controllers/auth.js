@@ -2,13 +2,15 @@ const bcrypt = require("bcrypt");
 const expressValidator = require("express-validator");
 const jwt = require("jsonwebtoken");
 
+const { registerUser, loginUser, refreshToken } = require('../services/auth.js');
+
 const authConfig = require("../config/auth.config.js");
-const User = require("../models/user.js");
+
 const RefreshToken = require("../models/jwt-refresh-token.js");
 
 const { validationResult } = expressValidator;
 
-const postRegisterUser = async (req, res, next) => {
+exports.postRegisterUser = async (req, res, next) => {
 /*     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error("Validation failed");
@@ -20,15 +22,9 @@ const postRegisterUser = async (req, res, next) => {
     const password = req.body.password;
     const name = req.body.name;
     const surname = req.body.surname;
+    
     try {
-      const hashedPassword = await bcrypt.hash(password, 12);
-      const user = new User({
-        email: email,
-        name: name,
-        surname: surname,
-        password: hashedPassword,
-      });
-      await user.save();
+      await registerUser(email, name, surname, password);
       res.status(200).json({
         confirmation: "success",
         message: "User registered",
@@ -37,52 +33,42 @@ const postRegisterUser = async (req, res, next) => {
       error.statusCode = 500;
       next(error);
     }
+
   };
 
-  const postLoginUser = async (req, res, next) => {
+  exports.postLoginUser = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
-    let loadedUser;
     try {
-      loadedUser = await User.findOne({ email: email });
-      if (!loadedUser) {
-        const error = new Error("User not found");
-        error.statusCode = 401;
-        throw error;
-      }
-      const isEqual = await bcrypt.compare(password, loadedUser.password);
-      if (!isEqual) {
-        const error = new Error("Invalid password");
-        error.statusCode = 401;
-        throw error;
-      }
-      const token = jwt.sign(
-        {
-          email: loadedUser.email,
-          userId: loadedUser._id.toString(),
-        },
-        authConfig.secret,
-        { expiresIn: authConfig.jwtExpiration }
-      );
-  
-      let refreshToken = await RefreshToken.createToken(loadedUser);
+      const data = await loginUser(email, password);
   
       res.status(200).json({
         confirmation: "Success",
         message: "JWT created",
-        data: {
-          token: token,
-          refreshToken: refreshToken,
-          userId: loadedUser._id.toString(),
-        },
+        data: data,
       });
     } catch (error) {
       next(error);
     }
   };
 
-  module.exports = {
-    postRegisterUser,
-    postLoginUser
+  exports.postRefreshToken = async (req, res, next) => {
+    const { refreshToken: requestToken } = req.body;
+    if (requestToken == null) {
+      const err = new Error("Refresh Token is required!");
+      err.statusCode = 403;
+      return next(err);
+    }
+    try {
+      const data = await refreshToken(requestToken);
+  
+      return res.status(200).json({
+        confirmation: "success",
+        data: data,
+      });
+    } catch (error) {
+      next(error);
+    }
   };
+
   
