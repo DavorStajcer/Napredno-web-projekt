@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const authRoutes = require("./routes/auth.js");
+const authRoutes = require("./routes/auth.routes.js");
+const eventRoutes = require("./routes/event.routes.js");
 
 const MONGODB_URI =
   "mongodb+srv://sandro:z6hE16hJP6wXx0zl@cluster0.zutnl.mongodb.net/OKPP-event-planner";
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/event", eventRoutes);
 
 app.use((err, req, res, next) => {
     const status = err.statusCode || 500;

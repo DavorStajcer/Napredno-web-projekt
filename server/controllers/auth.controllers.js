@@ -1,14 +1,6 @@
-const bcrypt = require("bcrypt");
 const expressValidator = require("express-validator");
-const jwt = require("jsonwebtoken");
 
-const { registerUser, loginUser, refreshToken } = require('../services/auth.js');
-
-const authConfig = require("../config/auth.config.js");
-
-const RefreshToken = require("../models/jwt-refresh-token.js");
-
-const { validationResult } = expressValidator;
+const { registerUser, loginUser, refreshToken } = require('../services/auth.services.js');
 
 exports.postRegisterUser = async (req, res, next) => {
 /*     const errors = validationResult(req);

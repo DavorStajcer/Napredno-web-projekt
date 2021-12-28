@@ -20,6 +20,7 @@ exports.registerUser = async (email, name, surname, password) => {
       name: name,
       surname: surname,
       password: hashedPassword,
+      admin: false
     });
     await user.save();
   } catch (error) {
