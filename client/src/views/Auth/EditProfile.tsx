@@ -1,3 +1,5 @@
+import { Layout } from 'components';
+
 export const EditProfile: React.FC = () => {
-  return <div>Edit your profile</div>;
+  return <Layout>Edit your profile</Layout>;
 };

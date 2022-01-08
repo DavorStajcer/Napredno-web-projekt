@@ -1,3 +1,5 @@
+import { Layout } from 'components';
+
 export const CreateEvent: React.FC = () => {
-  return <div>Create event</div>;
+  return <Layout>Create event</Layout>;
 };

@@ -1,3 +1,5 @@
+import { Layout } from 'components';
+
 export const EditPassword: React.FC = () => {
-  return <div>Edit your password</div>;
+  return <Layout>Edit your password</Layout>;
 };

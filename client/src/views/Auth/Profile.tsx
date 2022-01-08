@@ -1,3 +1,5 @@
+import { Layout } from 'components';
+
 export const Profile: React.FC = () => {
-  return <div>My profile</div>;
+  return <Layout>My profile</Layout>;
 };
