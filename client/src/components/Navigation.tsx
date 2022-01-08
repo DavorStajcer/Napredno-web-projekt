@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import EventIcon from '@mui/icons-material/Event';
 import {
@@ -16,7 +15,6 @@ import {
 import { Routes } from 'fixtures';
 import { useState } from 'react';
 import { Link, navigate } from '@reach/router';
-const profile = ['Profile', 'Logout'];
 
 const events = [
   { eventName: 'Events', eventLink: Routes.Home },
