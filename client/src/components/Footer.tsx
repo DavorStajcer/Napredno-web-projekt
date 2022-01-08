@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from '@mui/material';
 import { Copyright } from 'components';
 
-export const Footer = () => {
+export const Footer: React.FC = () => {
   return (
     <Box
       component="footer"

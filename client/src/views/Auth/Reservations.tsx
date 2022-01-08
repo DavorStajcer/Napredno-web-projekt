@@ -1,3 +1,5 @@
+import { Layout } from 'components';
+
 export const Reservations: React.FC = () => {
-  return <div>Events that I am registered</div>;
+  return <Layout>Events that I am registered</Layout>;
 };

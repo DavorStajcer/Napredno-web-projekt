@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import EventIcon from '@mui/icons-material/Event';
 import {
@@ -12,9 +13,17 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material';
+import { Routes } from 'fixtures';
 import { useState } from 'react';
+import { Link, navigate } from '@reach/router';
 const profile = ['Profile', 'Logout'];
-const event = ['Events', 'Reservations', 'My Events', 'Create Event'];
+
+const events = [
+  { eventName: 'Events', eventLink: Routes.Home },
+  { eventName: 'Reservations', eventLink: Routes.Reservations },
+  { eventName: 'My Events', eventLink: Routes.MyEvents },
+  { eventName: 'Create Event', eventLink: Routes.CreateEvent },
+];
 
 export const Navigation: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -33,6 +42,10 @@ export const Navigation: React.FC = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    navigate(Routes.Login);
   };
 
   return (
@@ -77,9 +90,14 @@ export const Navigation: React.FC = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {event.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {events.map(({ eventLink, eventName }) => (
+                <MenuItem key={eventName} onClick={handleCloseNavMenu}>
+                  <Link to={eventLink} style={{ textDecoration: 'none' }}>
+                    {' '}
+                    <Typography textAlign="center" color="black">
+                      {eventName}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -93,14 +111,19 @@ export const Navigation: React.FC = () => {
             Event Planner
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {event.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+            {events.map(({ eventLink, eventName }) => (
+              <Link
+                to={eventLink}
+                key={eventName}
+                style={{ textDecoration: 'none' }}
               >
-                {page}
-              </Button>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {eventName}
+                </Button>
+              </Link>
             ))}
           </Box>
 
@@ -126,11 +149,17 @@ export const Navigation: React.FC = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {profile.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <Link to={Routes.Profile} style={{ textDecoration: 'none' }}>
+                <MenuItem key="profile" onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" color="black">
+                    Profile
+                  </Typography>
                 </MenuItem>
-              ))}
+              </Link>
+
+              <MenuItem key="logout" onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
