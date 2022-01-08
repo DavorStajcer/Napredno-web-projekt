@@ -1,10 +1,13 @@
 export enum Routes {
-  Events = '/events',
-  Home = '/',
   Login = '/login',
   Register = '/register',
-  Event = '/events/:id',
+  Home = '/',
   Profile = '/profile',
-  NewEvent = '/new-event',
+  EditProfile = '/edit-profile',
+  EditPassword = '/edit-password',
+  Reservations = '/reservations',
+  MyEvents = '/my-events',
+  EditEvent = 'edit-event/:id',
+  CreateEvent = '/create-event',
   NotFound = '*',
 }

@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Copyright } from 'components';
 import {
-  AppBar,
   Box,
   Button,
   Card,
@@ -9,9 +7,7 @@ import {
   CardContent,
   CssBaseline,
   Grid,
-  Toolbar,
   Typography,
-  Link,
   GlobalStyles,
   Container,
   CardMedia,
@@ -27,47 +23,6 @@ export const EventList: React.FC = () => {
         styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }}
       />
       <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
-      >
-        <Toolbar sx={{ flexWrap: 'wrap' }}>
-          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            Event planner
-          </Typography>
-          <nav>
-            <Link
-              variant="button"
-              color="text.primary"
-              href="#"
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              Events
-            </Link>
-            <Link
-              variant="button"
-              color="text.primary"
-              href="#"
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              New Event
-            </Link>
-            <Link
-              variant="button"
-              color="text.primary"
-              href="#"
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              Profile
-            </Link>
-          </nav>
-          <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
       {/* Hero unit */}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8 }}>
         <Typography
