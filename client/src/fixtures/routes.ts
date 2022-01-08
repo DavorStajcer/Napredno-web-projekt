@@ -7,7 +7,8 @@ export enum Routes {
   EditPassword = '/edit-password',
   Reservations = '/reservations',
   MyEvents = '/my-events',
-  EditEvent = 'edit-event/:id',
+  EditEvent = '/edit-event/:id',
   CreateEvent = '/create-event',
+  Event = '/event/:id',
   NotFound = '*',
 }

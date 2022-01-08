@@ -11,6 +11,7 @@ import {
   MyEvents,
   EditEvent,
   CreateEvent,
+  SingleEvent,
 } from 'views';
 import { Routes } from 'fixtures';
 
@@ -31,6 +32,7 @@ export const Routing: React.FC = () => {
       <RouterPage path={Routes.MyEvents} pageComponent={<MyEvents />} />
       <RouterPage path={Routes.EditEvent} pageComponent={<EditEvent />} />
       <RouterPage path={Routes.CreateEvent} pageComponent={<CreateEvent />} />
+      <RouterPage path={Routes.Event} pageComponent={<SingleEvent />} />
       <RouterPage path={Routes.NotFound} pageComponent={<NotFound />} />
     </Router>
   );
