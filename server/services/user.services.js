@@ -42,14 +42,32 @@ exports.editUserInfo = async (userId, name, surname, email, password) => {
   }
 };
 
-exports.findUserById = async (userId) => {
-    const user = await User.findById(userId);
+exports.editUserPassword = async (userId, currentPassword, newPassword) => {
+  try {
+    const user = await this.findUserById(userId);
 
-    if (!user) {
-      const error = new Error("User not found with given id");
-      error.statusCode = 404;
+    if (!(await bcrypt.compare(currentPassword, user.password))) {
+      const error = new Error("Invalid password");
+      error.statusCode = 401;
       throw error;
     }
 
-    return user;
-}
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.findUserById = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    const error = new Error("User not found with given id");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  return user;
+};

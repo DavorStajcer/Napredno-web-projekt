@@ -1,4 +1,9 @@
-const { fetchUserById, fetchAllUsers, editUserInfo } = require("../services/user.services.js");
+const {
+  fetchUserById,
+  fetchAllUsers,
+  editUserInfo,
+  editUserPassword
+} = require("../services/user.services.js");
 
 exports.postFetchUserById = async (req, res, next) => {
   const { userId } = req.body;
@@ -19,22 +24,22 @@ exports.postFetchUserById = async (req, res, next) => {
 };
 
 exports.getFetchAllUsers = async (req, res, next) => {
-    try {
-        const users = await fetchAllUsers();
-        res.status(200).json({
-            confirmation: "success",
-            message: "Fetched all users",
-            data: {
-              users: users,
-            },
-          });
-    } catch (error) {
-      error.statusCode = 500;
-      next(error);
-    }
-}
+  try {
+    const users = await fetchAllUsers();
+    res.status(200).json({
+      confirmation: "success",
+      message: "Fetched all users",
+      data: {
+        users: users,
+      },
+    });
+  } catch (error) {
+    error.statusCode = 500;
+    next(error);
+  }
+};
 
-exports.postEditUser = async (req, res, next) => {
+exports.postEditUserInfo = async (req, res, next) => {
   const { userId, name, surname, email, password } = req.body;
 
   try {
@@ -50,4 +55,19 @@ exports.postEditUser = async (req, res, next) => {
     error.statusCode = 500;
     next(error);
   }
-}
+};
+
+exports.postEditUserPassword = async (req, res, next) => {
+  const { userId, currentPassword, newPassword } = req.body;
+
+  try {
+    await editUserPassword(userId, currentPassword, newPassword);
+    res.status(200).json({
+      confirmation: "success",
+      message: "Edited user password",
+    });
+  } catch (error) {
+    error.statusCode = 500;
+    next(error);
+  }
+};

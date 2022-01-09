@@ -8,6 +8,8 @@ router.post("/fetch", userController.postFetchUserById);
 
 router.get("/fetch-all", userController.getFetchAllUsers);
 
-router.post("/edit", userController.postEditUser);
+router.post("/edit", userController.postEditUserInfo);
+
+router.post("/edit-password", userController.postEditUserPassword)
 
 module.exports = router;
