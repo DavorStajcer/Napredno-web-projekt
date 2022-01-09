@@ -129,6 +129,9 @@ export const Navigation: React.FC = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <ManageAccountsIcon />
+                <Typography sx={{ ml: 1 }} color="white">
+                  Marko Boras
+                </Typography>
               </IconButton>
             </Tooltip>
             <Menu
