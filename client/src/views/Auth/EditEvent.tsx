@@ -1,5 +1,10 @@
 import { Layout } from 'components';
+import { EditEventForm } from 'modules/event';
 
 export const EditEvent: React.FC = () => {
-  return <Layout>Edit event</Layout>;
+  return (
+    <Layout>
+      <EditEventForm />
+    </Layout>
+  );
 };

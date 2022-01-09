@@ -1,5 +1,10 @@
 import { Layout } from 'components';
+import { MyEventsList } from 'modules/event';
 
 export const MyEvents: React.FC = () => {
-  return <Layout>Events that have passed and future events</Layout>;
+  return (
+    <Layout>
+      <MyEventsList />
+    </Layout>
+  );
 };
