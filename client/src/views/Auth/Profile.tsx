@@ -1,5 +1,10 @@
 import { Layout } from 'components';
+import { UserInformation } from 'modules/user';
 
 export const Profile: React.FC = () => {
-  return <Layout>My profile</Layout>;
+  return (
+    <Layout>
+      <UserInformation />
+    </Layout>
+  );
 };
