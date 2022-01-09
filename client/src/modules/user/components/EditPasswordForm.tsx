@@ -1,15 +1,12 @@
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { Link } from '@reach/router';
-import { Routes } from 'fixtures';
 import { useState } from 'react';
 
 const defaultValues = {
-  name: '',
-  surname: '',
-  email: '',
-  password: '',
+  newPassword: '',
+  confirmPassword: '',
+  oldPassword: '',
 };
-export const EditProfileForm: React.FC = () => {
+export const EditPasswordForm: React.FC = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -33,59 +30,43 @@ export const EditProfileForm: React.FC = () => {
               display: 'flex',
               flexDirection: 'column',
             }}
-            id="name-input"
-            name="name"
-            label="Name"
-            type="text"
-            value={formValues.name}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 1,
-            }}
-            id="surname-input"
-            name="surname"
-            label="Surname"
-            type="text"
-            value={formValues.surname}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 1,
-            }}
-            id="email-input"
-            name="email"
-            label="Email address"
-            type="text"
-            value={formValues.email}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 1,
-            }}
-            id="password-input"
-            name="password"
-            label="Password"
+            id="newPassword-input"
+            name="newPassword"
+            label="New Password"
             type="password"
-            value={formValues.password}
+            value={formValues.newPassword}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            sx={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              mt: 1,
+            }}
+            id="confirmPassword-input"
+            name="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            value={formValues.confirmPassword}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            sx={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              mt: 1,
+            }}
+            id="oldPassword-input"
+            name="oldPassword"
+            label="Old password"
+            type="password"
+            value={formValues.oldPassword}
             onChange={handleInputChange}
           />
         </Grid>
@@ -103,25 +84,8 @@ export const EditProfileForm: React.FC = () => {
             color="primary"
             type="submit"
           >
-            Edit user
+            Edit password
           </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Link to={Routes.EditPassword} style={{ textDecoration: 'none' }}>
-            <Button
-              sx={{
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                mb: 1,
-              }}
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              Change password page
-            </Button>
-          </Link>
         </Grid>
       </Container>
     </form>

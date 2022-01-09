@@ -1,5 +1,10 @@
 import { Layout } from 'components';
+import { ReservationList } from 'modules/event';
 
 export const Reservations: React.FC = () => {
-  return <Layout>Events that I am registered</Layout>;
+  return (
+    <Layout>
+      <ReservationList />
+    </Layout>
+  );
 };
