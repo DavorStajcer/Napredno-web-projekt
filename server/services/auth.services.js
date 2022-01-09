@@ -33,7 +33,7 @@ exports.loginUser = async (email, password) => {
     const loadedUser = await User.findOne({ email: email });
     if (!loadedUser) {
       const error = new Error("User not found");
-      error.statusCode = 401;
+      error.statusCode = 404;
       throw error;
     }
 
