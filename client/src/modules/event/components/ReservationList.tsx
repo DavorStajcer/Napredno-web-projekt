@@ -4,11 +4,14 @@ import {
   Typography,
   GlobalStyles,
   Container,
+  Button,
 } from '@mui/material';
 import React from 'react';
 import { EventPreview } from 'modules/event';
+import { Link } from '@reach/router';
+import { Routes } from 'fixtures';
 
-const cards: any[] = [1, 2, 3];
+const cards: any[] = [];
 
 export const ReservationList: React.FC = () => {
   return (
@@ -52,6 +55,11 @@ export const ReservationList: React.FC = () => {
           >
             You are not registered to any event yet.
           </Typography>
+          <Link to={Routes.Home} style={{ textDecoration: 'none' }}>
+            <Button size="large" variant="contained" sx={{ ml: 20, mt: 3 }}>
+              Please make a reservation
+            </Button>
+          </Link>
         </Container>
       )}
     </React.Fragment>
