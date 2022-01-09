@@ -11,7 +11,7 @@ import { EventPreview } from 'modules/event';
 import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
 
-const cards: any[] = [];
+const cards: any[] = [1, 2];
 
 export const ReservationList: React.FC = () => {
   return (

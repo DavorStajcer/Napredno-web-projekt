@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Card,
@@ -14,7 +13,7 @@ interface Props {
   card: number;
 }
 
-export const EditEventPreview: React.FC<Props> = ({ card }) => {
+export const FutureEventPreview: React.FC<Props> = ({ card }) => {
   return (
     <Grid item key={card} xs={12} sm={6}>
       <Card

@@ -6,7 +6,7 @@ import {
   Container,
 } from '@mui/material';
 import React from 'react';
-import { EditEventPreview } from 'modules/event';
+import { FutureEventPreview, PassedEventPreview } from 'modules/event';
 
 const cards: any[] = [1, 2, 3];
 
@@ -30,7 +30,7 @@ export const MyEventsList: React.FC = () => {
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
-            <EditEventPreview card={card} key={card} />
+            <PassedEventPreview card={card} key={card} />
           ))}
         </Grid>
       </Container>
@@ -47,7 +47,7 @@ export const MyEventsList: React.FC = () => {
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
-            <EditEventPreview card={card} key={card} />
+            <FutureEventPreview card={card} key={card} />
           ))}
         </Grid>
       </Container>
