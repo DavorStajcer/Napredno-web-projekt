@@ -1,9 +1,10 @@
-import { EventList } from 'modules/event/components/EventList';
+import { EventList } from 'modules/event';
+import { Layout } from 'components';
 
 export const Events: React.FC = () => {
   return (
-    <div>
+    <Layout>
       <EventList />
-    </div>
+    </Layout>
   );
 };

@@ -1,3 +1,10 @@
+import { Layout } from 'components';
+import { EditProfileForm } from 'modules/user';
+
 export const EditProfile: React.FC = () => {
-  return <div>Edit your profile</div>;
+  return (
+    <Layout>
+      <EditProfileForm />
+    </Layout>
+  );
 };

@@ -1,6 +1,6 @@
 import { Link, Typography } from '@mui/material';
 
-export const Copyright = () => {
+export const Copyright: React.FC = () => {
   return (
     <Typography variant="body2" color="text.secondary">
       {'Copyright © '}

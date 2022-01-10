@@ -1,4 +1,4 @@
-import { SignIn } from 'modules';
+import { SignIn } from 'modules/auth';
 
 export const Login: React.FC = () => {
   return (

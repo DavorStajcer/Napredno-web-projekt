@@ -1,3 +1,10 @@
+import { Layout } from 'components';
+import { UserInformation } from 'modules/user';
+
 export const Profile: React.FC = () => {
-  return <div>My profile</div>;
+  return (
+    <Layout>
+      <UserInformation />
+    </Layout>
+  );
 };

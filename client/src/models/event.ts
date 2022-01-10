@@ -1,36 +1,42 @@
 export interface Event {
   id: string;
   imageUrl: string;
-  title: string;
-  date: Date;
-  address: string;
-  country: string;
-  city: string;
-  numberOfSlots: number;
+  name: string;
   description: string;
+  date: Date;
+  location: string;
+  numberOfSlots: number;
+  count: number;
+  adminName: string;
+  adminSurname: string;
+  adminId: string;
 }
 
 export class Event {
   constructor({
     id,
-    title,
+    name,
     imageUrl,
     date,
-    address,
-    country,
-    city,
+    location,
     numberOfSlots,
     description,
+    count,
+    adminName,
+    adminSurname,
+    adminId,
   }: Event) {
     this.id = id;
-    this.title = title;
+    this.name = name;
     this.imageUrl = imageUrl;
     this.date = date;
-    this.address = address;
-    this.country = country;
-    this.city = city;
+    this.location = location;
     this.numberOfSlots = numberOfSlots;
     this.description = description;
+    this.count = count;
+    this.adminName = adminName;
+    this.adminSurname = adminSurname;
+    this.adminId = adminId;
   }
 }
 
@@ -39,3 +45,19 @@ export interface AllEvents {
   loading: boolean;
   error: string | unknown;
 }
+
+/*
+export interface Event {
+  id: string;
+  imageUrl: string;
+  name: string;
+  description: string;
+  date: Date;
+  location: string;
+  numberOfSlots: number;
+  count: number;
+  adminName: string;
+  adminSurname: string;
+  adminId: string;
+}
+*/

@@ -24,6 +24,7 @@ export const SignUp: React.FC = () => {
       password: data.get('password'),
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
+      confirmPassword: data.get('confirmPassword'),
     });
   };
 
@@ -89,6 +90,17 @@ export const SignUp: React.FC = () => {
                   label="Password"
                   type="password"
                   id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
                   autoComplete="new-password"
                 />
               </Grid>

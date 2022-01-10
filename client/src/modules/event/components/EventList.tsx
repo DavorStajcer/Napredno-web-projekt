@@ -1,29 +1,20 @@
-import { Copyright } from 'components';
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CssBaseline,
-  Grid,
-  Typography,
-  GlobalStyles,
-  Container,
-  CardMedia,
-} from '@mui/material';
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Grid, Typography, Container } from '@mui/material';
+import React, { useEffect } from 'react';
+import { EventPreview, selectAllEvents, useEvent } from 'modules/event';
+import { useSelector } from 'react-redux';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const EventList: React.FC = () => {
+  const { getAllEvents } = useEvent();
+  const allEvents = useSelector(selectAllEvents);
+  useEffect(() => {
+    getAllEvents();
+  }, []);
+
   return (
     <React.Fragment>
-      <GlobalStyles
-        styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }}
-      />
-      <CssBaseline />
-      {/* Hero unit */}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8 }}>
         <Typography
           component="h1"
@@ -45,65 +36,13 @@ export const EventList: React.FC = () => {
           shows, and private parties.
         </Typography>
       </Container>
-      {/* End hero unit */}
-      <Container sx={{ py: 1, pb: 5 }} maxWidth="md">
-        {/* End hero unit */}
+      <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    // 16:9
-                    pt: '32.25%',
-                  }}
-                  image="https://source.unsplash.com/random"
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Heading
-                  </Typography>
-                  <Typography>
-                    This is a media card. You can use this section to describe
-                    the content.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">View</Button>
-                  <Button size="small">Edit</Button>
-                </CardActions>
-              </Card>
-            </Grid>
+          {allEvents.map((event) => (
+            <EventPreview event={event} key={event.id} />
           ))}
         </Grid>
       </Container>
-      {/* Footer */}
-      <Box
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[300]
-              : theme.palette.grey[800],
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="body1">Event Planner</Typography>
-          <Copyright />
-        </Container>
-      </Box>
-      {/* End footer */}
     </React.Fragment>
   );
 };
