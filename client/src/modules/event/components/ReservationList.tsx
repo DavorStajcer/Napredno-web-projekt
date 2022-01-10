@@ -6,21 +6,25 @@ import {
   Container,
   Button,
 } from '@mui/material';
-import React from 'react';
-import { EventPreview } from 'modules/event';
+import React, { useEffect } from 'react';
+import { EventPreview, selectAllEvents, useEvent } from 'modules/event';
 import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
-
-const cards: any[] = [1, 2];
+import { useSelector } from 'react-redux';
 
 export const ReservationList: React.FC = () => {
+  const { getAllEvents } = useEvent();
+  const allEvents = useSelector(selectAllEvents);
+  useEffect(() => {
+    getAllEvents();
+  }, []);
   return (
     <React.Fragment>
       <GlobalStyles
         styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }}
       />
       <CssBaseline />
-      {cards.length !== 0 ? (
+      {allEvents.length !== 0 ? (
         <>
           <Container
             disableGutters
@@ -39,8 +43,8 @@ export const ReservationList: React.FC = () => {
           </Container>
           <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
             <Grid container spacing={4}>
-              {cards.map((card) => (
-                <EventPreview card={card} key={card} />
+              {allEvents.map((event) => (
+                <EventPreview event={event} key={event.id} />
               ))}
             </Grid>
           </Container>

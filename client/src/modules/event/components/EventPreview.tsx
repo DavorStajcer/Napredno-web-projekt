@@ -8,14 +8,15 @@ import {
   Typography,
 } from '@mui/material';
 import { Link } from '@reach/router';
+import { Event } from 'models';
 
 interface Props {
-  card: number;
+  event: Event;
 }
 
-export const EventPreview: React.FC<Props> = ({ card }) => {
+export const EventPreview: React.FC<Props> = ({ event }) => {
   return (
-    <Grid item key={card} xs={12} sm={6}>
+    <Grid item key={event.id} xs={12} sm={6}>
       <Card
         sx={{
           height: '100%',
@@ -23,23 +24,20 @@ export const EventPreview: React.FC<Props> = ({ card }) => {
           flexDirection: 'column',
         }}
       >
-        <Link to="/event/dadsadas">
+        <Link to={`/event/${event.id}`}>
           <CardMedia
             height="300"
             component="img"
-            image="https://source.unsplash.com/random"
+            image={event.imageUrl}
             alt="random"
           />
         </Link>
 
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="h2">
-            Event name
+            {event.name}
           </Typography>
-          <Typography>
-            This is a event description. You can use this section to describe
-            the content.
-          </Typography>
+          <Typography>{event.description}</Typography>
         </CardContent>
         <CardActions>
           <Link to="/event/dadsadas" style={{ textDecoration: 'none' }}>

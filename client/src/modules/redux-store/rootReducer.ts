@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { eventReducer } from 'modules/event/redux/eventSlice';
 
-const rootReducer = combineReducers({ eventReducer });
+const rootReducer = combineReducers({ events: eventReducer });
 
 export type RootState = ReturnType<typeof rootReducer>;
 

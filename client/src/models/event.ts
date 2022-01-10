@@ -45,3 +45,19 @@ export interface AllEvents {
   loading: boolean;
   error: string | unknown;
 }
+
+/*
+export interface Event {
+  id: string;
+  imageUrl: string;
+  name: string;
+  description: string;
+  date: Date;
+  location: string;
+  numberOfSlots: number;
+  count: number;
+  adminName: string;
+  adminSurname: string;
+  adminId: string;
+}
+*/

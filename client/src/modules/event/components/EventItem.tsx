@@ -10,10 +10,12 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { Link } from '@reach/router';
 import React from 'react';
+import { useEvent } from 'modules/event';
 
 export const EventItem: React.FC = () => {
+  const { eventById } = useEvent();
+
   return (
     <React.Fragment>
       <GlobalStyles
@@ -32,32 +34,27 @@ export const EventItem: React.FC = () => {
             <CardMedia
               height="300"
               component="img"
-              image="https://source.unsplash.com/random"
+              image={eventById?.imageUrl}
               alt="random"
             />
 
             <CardContent sx={{ flexGrow: 1 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                Event name
+                {eventById?.name}
               </Typography>
               <Typography gutterBottom variant="h6">
-                Event date
+                {eventById?.date}
               </Typography>
               <Typography gutterBottom variant="h6">
-                Event location
+                {eventById?.location}
               </Typography>
-              <Typography gutterBottom>
-                This is a event description. You can use this section to
-                describe the content.
-              </Typography>
+              <Typography gutterBottom>{eventById?.description}</Typography>
 
-              <Typography gutterBottom>Max number of slots</Typography>
-              <Typography>Count</Typography>
+              <Typography gutterBottom>{eventById?.numberOfSlots}</Typography>
+              <Typography>{eventById?.count}</Typography>
             </CardContent>
             <CardActions>
-              <Link to="/event/dadsadas" style={{ textDecoration: 'none' }}>
-                <Button size="small">Register to event</Button>
-              </Link>
+              <Button size="small">Register to event</Button>
             </CardActions>
           </Card>
         </Grid>

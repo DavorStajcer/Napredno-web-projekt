@@ -1,10 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Grid, Typography, Container } from '@mui/material';
-import React from 'react';
-import { EventPreview } from 'modules/event';
+import React, { useEffect } from 'react';
+import { EventPreview, selectAllEvents, useEvent } from 'modules/event';
+import { useSelector } from 'react-redux';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const EventList: React.FC = () => {
+  const { getAllEvents } = useEvent();
+  const allEvents = useSelector(selectAllEvents);
+  useEffect(() => {
+    getAllEvents();
+  }, []);
+
   return (
     <React.Fragment>
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8 }}>
@@ -30,8 +38,8 @@ export const EventList: React.FC = () => {
       </Container>
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <EventPreview card={card} key={card} />
+          {allEvents.map((event) => (
+            <EventPreview event={event} key={event.id} />
           ))}
         </Grid>
       </Container>
