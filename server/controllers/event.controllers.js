@@ -14,8 +14,6 @@ exports.postCreateEvent = async (req, res, next) => {
     location,
     date,
     maxAttendees,
-    adminName,
-    adminSurname,
     adminId,
   } = req.body;
 
@@ -26,8 +24,6 @@ exports.postCreateEvent = async (req, res, next) => {
       location,
       date,
       maxAttendees,
-      adminName,
-      adminSurname,
       adminId
     );
     res.status(200).json({

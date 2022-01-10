@@ -27,14 +27,6 @@ const eventSchema = new Schema({
     type: Number,
     default: 0,
   },
-  adminName: {
-    type: String,
-    required: true,
-  },
-  adminSurname: {
-    type: String,
-    required: true,
-  },
   adminId: {
     type: Schema.Types.ObjectId,
     ref: "User",

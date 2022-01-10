@@ -6,8 +6,6 @@ exports.createEvent = async (
   location,
   date,
   maxAttendees,
-  adminName,
-  adminSurname,
   adminId
 ) => {
   try {
@@ -17,8 +15,6 @@ exports.createEvent = async (
       location: location,
       date: new Date(date),
       maxAttendees: maxAttendees,
-      adminName: adminName,
-      adminSurname: adminSurname,
       adminId: adminId,
     });
     await event.save();
