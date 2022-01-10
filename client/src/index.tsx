@@ -19,3 +19,5 @@ render();
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./App', render);
 }
+
+//axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}

@@ -1,4 +1,4 @@
-import { SignUp } from 'modules/user';
+import { SignUp } from 'modules/auth';
 
 export const Register: React.FC = () => {
   return (

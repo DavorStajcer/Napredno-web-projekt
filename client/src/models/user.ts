@@ -1,18 +1,20 @@
 export interface User {
-  id: string;
+  id?: string;
   name: string;
   surname: string;
   password: string;
   email: string;
+  admin: boolean;
 }
 
 export class User {
-  constructor({ id, name, surname, password, email }: User) {
+  constructor({ id, name, surname, password, email, admin }: User) {
     this.id = id;
     this.name = name;
     this.surname = surname;
     this.password = password;
     this.email = email;
+    this.admin = admin;
   }
 }
 
