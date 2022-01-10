@@ -16,6 +16,6 @@ router.get("/fetch-all", eventController.getFetchAllEvents);
 
 router.post("/fetch-one", eventController.postFetchEventById);
 
-router.post("/fetch-users", eventController.postFetchUserEvents);
+router.post("/fetch-users", isAuth, eventController.postFetchUserEvents);
 
 module.exports = router;

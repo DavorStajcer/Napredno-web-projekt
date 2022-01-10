@@ -113,7 +113,6 @@ exports.fetchAllFutureEvents = async () => {
 exports.fetchUserEvents = async (adminId) => {
   try {
     return await Event.find({ adminId: adminId });
-
   } catch (error) {
     throw error;
   }
