@@ -36,13 +36,13 @@ exports.editEvent = async (
   try {
     const event = await Event.findById(eventId);
 
-    if(!event) {
+    if (!event) {
       const error = new Error("Event not found in database");
       error.code = 404;
       throw error;
     }
 
-    if(event.adminId.toString() !== adminId) {
+    if (event.adminId.toString() !== adminId) {
       const error = new Error("User has no permission to edit");
       error.statusCode = 401;
       throw error;
@@ -67,13 +67,13 @@ exports.deleteEvent = async (eventId, adminId) => {
   try {
     const event = await Event.findById(eventId);
 
-    if(!event) {
+    if (!event) {
       const error = new Error("Event not found in database");
       error.code = 404;
       throw error;
     }
 
-    if(event.adminId.toString() !== adminId) {
+    if (event.adminId.toString() !== adminId) {
       const error = new Error("User has no permission to delete");
       error.statusCode = 401;
       throw error;
@@ -89,13 +89,19 @@ exports.deleteEvent = async (eventId, adminId) => {
 
 exports.fetchEventById = async (eventId) => {
   try {
-    return await Event.findById(eventId);
+    const event = await Event.findById(eventId);
+    if (!event) {
+      const error = new Error("Event not found in database");
+      error.code = 404;
+      throw error;
+    }
+    return event;
   } catch (error) {
     throw error;
   }
 };
 
-exports.fetchAllEvents = async () => {
+exports.fetchAllFutureEvents = async () => {
   const currentDate = new Date().toISOString();
   try {
     return await Event.find({ date: { $gte: currentDate } });
@@ -104,9 +110,10 @@ exports.fetchAllEvents = async () => {
   }
 };
 
-exports.fetchUserEvents = async (userId) => {
+exports.fetchUserEvents = async (adminId) => {
   try {
-    return await Event.find({ adminId: userId });
+    return await Event.find({ adminId: adminId });
+
   } catch (error) {
     throw error;
   }
