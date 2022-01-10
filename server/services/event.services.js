@@ -1,4 +1,5 @@
 const Event = require("../models/event.js");
+const { loginUser } = require("./auth.services.js");
 
 exports.createEvent = async (
   name,
@@ -29,9 +30,24 @@ exports.editEvent = async (
   description,
   location,
   date,
-  maxAttendees
+  maxAttendees,
+  adminId
 ) => {
   try {
+    const event = await Event.findById(eventId);
+
+    if(!event) {
+      const error = new Error("Event not found in database");
+      error.code = 404;
+      throw error;
+    }
+
+    if(event.adminId.toString() !== adminId) {
+      const error = new Error("User has no permission to edit");
+      error.statusCode = 401;
+      throw error;
+    }
+
     const doc = await Event.findOneAndUpdate(
       { _id: eventId },
       {

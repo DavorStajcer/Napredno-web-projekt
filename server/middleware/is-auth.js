@@ -20,17 +20,12 @@ const isAuth = async (req, res, next) => {
     return next(error);
   }
 
-  console.log(authHeader);
   const token = authHeader.split(" ")[1];
 
-  console.log(token);
   jwt.verify(token, authConfig.secret, (err, decodedToken) => {
-    console.log(decodedToken, 'decodedToken');
     if (err) {
-      console.log(err, 'Erorrcina');
       return catchError(err, next);
     }
-    console.log(decodedToken.userId, 'isauth');
     req.userId = decodedToken.userId;
     next();
   });

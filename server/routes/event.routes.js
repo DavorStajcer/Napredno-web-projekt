@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/create", isAuth, eventController.postCreateEvent);
 
-router.post("/edit", eventController.postEditEvent);
+router.post("/edit", isAuth, eventController.postEditEvent);
 
 router.post("/delete", eventController.postDeleteEvent);
 

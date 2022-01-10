@@ -21,7 +21,6 @@ exports.postCreateEvent = async (req, res, next) => {
       message: "Event created",
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -29,14 +28,15 @@ exports.postCreateEvent = async (req, res, next) => {
 exports.postEditEvent = async (req, res, next) => {
   const { eventId, name, description, location, date, maxAttendees } = req.body;
 
+  const adminId = req.userId;
+
   try {
-    await editEvent(eventId, name, description, location, date, maxAttendees);
+    await editEvent(eventId, name, description, location, date, maxAttendees, adminId);
     res.status(200).json({
       confirmation: "success",
       message: "Event edited",
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
