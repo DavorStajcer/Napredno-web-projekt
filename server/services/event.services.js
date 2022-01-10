@@ -1,6 +1,5 @@
 const Event = require("../models/event.js");
 const User = require("../models/user.js");
-const { loginUser } = require("./auth.services.js");
 
 exports.createEvent = async (
   name,
@@ -90,13 +89,24 @@ exports.deleteEvent = async (eventId, adminId) => {
 
 exports.fetchEventById = async (eventId) => {
   try {
-    const event = await Event.findById(eventId);
+    let event = await Event.findById(eventId).lean().select("-__v");
     if (!event) {
       const error = new Error("Event not found in database");
       error.code = 404;
       throw error;
     }
-    return event;
+    const user = await User.findById(event.adminId).lean().select("-password");
+    if (!user) {
+      const error = new Error("User not found in database");
+      error.code = 404;
+      throw error;
+    }
+    return {
+      ...event,
+      userName: user.name,
+      userSurname: user.surname,
+      userEmail: user.email
+    }
   } catch (error) {
     throw error;
   }
