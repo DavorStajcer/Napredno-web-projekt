@@ -1,4 +1,5 @@
 const Event = require("../models/event.js");
+const User = require("../models/user.js");
 const { loginUser } = require("./auth.services.js");
 
 exports.createEvent = async (
@@ -104,7 +105,23 @@ exports.fetchEventById = async (eventId) => {
 exports.fetchAllFutureEvents = async () => {
   const currentDate = new Date().toISOString();
   try {
-    return await Event.find({ date: { $gte: currentDate } });
+    let events = await Event.find({ date: { $gte: currentDate } }).lean().select("-__v");
+
+    events = await Promise.all(
+      events.map(async (event) => {
+        const user = await User.findById(event.adminId.toString())
+          .lean()
+          .select("-password");
+
+        return {
+          ...event,
+          userName: user.name,
+          userSurname: user.surname,
+          userEmail: user.email,
+        };
+      })
+    );
+    return events;
   } catch (error) {
     throw error;
   }
