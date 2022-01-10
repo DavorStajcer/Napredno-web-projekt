@@ -1,6 +1,6 @@
 module.exports = {
     secret: "supersecret",
-    jwtExpiration: 3600,           // 1 hour
+    jwtExpiration: 36000,           // 1 hour
     jwtRefreshExpiration: 86400,   // 24 hours
   
     /* for test */

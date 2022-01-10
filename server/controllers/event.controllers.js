@@ -4,28 +4,18 @@ const {
   deleteEvent,
   fetchEventById,
   fetchAllEvents,
-  fetchUserEvents
+  fetchUserEvents,
 } = require("../services/event.services.js");
 
 exports.postCreateEvent = async (req, res, next) => {
-  const {
-    name,
-    description,
-    location,
-    date,
-    maxAttendees,
-    adminId,
-  } = req.body;
+  const { name, description, location, date, maxAttendees } = req.body;
+
+  const adminId = req.userId;
+
+  console.log(adminId, 'admin id');
 
   try {
-    await createEvent(
-      name,
-      description,
-      location,
-      date,
-      maxAttendees,
-      adminId
-    );
+    await createEvent(name, description, location, date, maxAttendees, adminId);
     res.status(200).json({
       confirmation: "success",
       message: "Event created",
@@ -66,7 +56,7 @@ exports.postDeleteEvent = async (req, res, next) => {
   }
 };
 
-exports.postFetchOneEvent = async (req, res, next) => {
+exports.postFetchEventById = async (req, res, next) => {
   const { eventId } = req.body;
 
   try {
@@ -101,20 +91,19 @@ exports.getFetchAllEvents = async (req, res, next) => {
 };
 
 exports.postFetchUserEvents = async (req, res, next) => {
+  const { userId } = req.body;
 
-	const { userId } = req.body;
-
-	try {
-		const events = await fetchUserEvents(userId);
-		res.status(200).json({
-			confirmation: "success",
-			message: "All user events fetched",
-			data: {
-			  events: events,
-			},
-		  });
-	} catch (error) {
-		error.statusCode = 500;
-		next(error);
-	}
-}
+  try {
+    const events = await fetchUserEvents(userId);
+    res.status(200).json({
+      confirmation: "success",
+      message: "All user events fetched",
+      data: {
+        events: events,
+      },
+    });
+  } catch (error) {
+    error.statusCode = 500;
+    next(error);
+  }
+};
