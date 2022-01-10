@@ -63,9 +63,23 @@ exports.editEvent = async (
   }
 };
 
-exports.deleteEvent = async (eventId) => {
+exports.deleteEvent = async (eventId, adminId) => {
   try {
-    const doc = await Event.findOneAndDelete({
+    const event = await Event.findById(eventId);
+
+    if(!event) {
+      const error = new Error("Event not found in database");
+      error.code = 404;
+      throw error;
+    }
+
+    if(event.adminId.toString() !== adminId) {
+      const error = new Error("User has no permission to delete");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const deletedEvent = await Event.findOneAndDelete({
       _id: eventId,
     });
   } catch (error) {

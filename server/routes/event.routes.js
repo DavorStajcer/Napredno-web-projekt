@@ -10,7 +10,7 @@ router.post("/create", isAuth, eventController.postCreateEvent);
 
 router.post("/edit", isAuth, eventController.postEditEvent);
 
-router.post("/delete", eventController.postDeleteEvent);
+router.post("/delete", isAuth, eventController.postDeleteEvent);
 
 router.get("/fetch-all", eventController.getFetchAllEvents);
 

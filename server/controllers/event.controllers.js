@@ -43,9 +43,11 @@ exports.postEditEvent = async (req, res, next) => {
 
 exports.postDeleteEvent = async (req, res, next) => {
   const { eventId } = req.body;
+  const adminId = req.userId;
+  console.log(req.userId);
 
   try {
-    await deleteEvent(eventId);
+    await deleteEvent(eventId, adminId);
     res.status(200).json({
       confirmation: "success",
       message: "Event deleted",
