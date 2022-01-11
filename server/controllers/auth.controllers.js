@@ -14,7 +14,6 @@ exports.postRegisterUser = async (req, res, next) => {
     const password = req.body.password;
     const name = req.body.name;
     const surname = req.body.surname;
-    
     try {
       await registerUser(email, name, surname, password);
       res.status(200).json({
@@ -22,7 +21,7 @@ exports.postRegisterUser = async (req, res, next) => {
         message: "User registered",
       });
     } catch (error) {
-      error.statusCode = 500;
+      error.statusCode = 404;
       next(error);
     }
 

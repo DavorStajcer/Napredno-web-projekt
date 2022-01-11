@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-  baseURL:
-    'https://event-planner-5fa62-default-rtdb.europe-west1.firebasedatabase.app',
+  baseURL: 'http://localhost:5000',
 });
 
 API.defaults.headers.common['Authorization'] = 'Auth from instance';

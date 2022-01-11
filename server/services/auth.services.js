@@ -9,11 +9,13 @@ const RefreshToken = require("../models/jwt-refresh-token.js");
 
 exports.registerUser = async (email, name, surname, password) => {
   try {
+    console.log('Tu sam');
     const userExists = await User.findOne({ email: email });
     if (userExists) {
       const error = new Error("User with given email already exists");
       throw error;
     }
+    console.log('ovdje');
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({
       email: email,
@@ -23,7 +25,9 @@ exports.registerUser = async (email, name, surname, password) => {
       admin: false
     });
     await user.save();
+    console.log('puca');
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
