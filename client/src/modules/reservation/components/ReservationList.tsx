@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   CssBaseline,
   Grid,
@@ -15,9 +16,9 @@ import { useSelector } from 'react-redux';
 export const ReservationList: React.FC = () => {
   const { getAllEvents } = useEvent();
   const allEvents = useSelector(selectAllEvents);
-  useEffect(() => {
-    getAllEvents();
-  }, []);
+  // useEffect(() => {
+  //   getAllEvents();
+  // }, []);
   return (
     <React.Fragment>
       <GlobalStyles

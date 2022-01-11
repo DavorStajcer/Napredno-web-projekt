@@ -9,23 +9,22 @@ const RefreshToken = require("../models/jwt-refresh-token.js");
 
 exports.registerUser = async (email, name, surname, password) => {
   try {
-    console.log('Tu sam');
     const userExists = await User.findOne({ email: email });
     if (userExists) {
       const error = new Error("User with given email already exists");
       throw error;
     }
-    console.log('ovdje');
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({
       email: email,
       name: name,
       surname: surname,
       password: hashedPassword,
-      admin: false
+      admin: false,
     });
+    console.log("user in auth services", user);
     await user.save();
-    console.log('puca');
   } catch (error) {
     console.log(error);
     throw error;
@@ -93,8 +92,8 @@ exports.refreshToken = async (requestToken) => {
 
     const newAccessToken = jwt.sign(
       {
-          email: refreshToken.user.email,
-          userId: refreshToken.user._id.toString(),
+        email: refreshToken.user.email,
+        userId: refreshToken.user._id.toString(),
       },
       authConfig.secret,
       {
@@ -103,7 +102,7 @@ exports.refreshToken = async (requestToken) => {
     );
 
     return {
-      accessToken: newAccessToken,
+      token: newAccessToken,
       refreshToken: refreshToken.token,
     };
   } catch (error) {

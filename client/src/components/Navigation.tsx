@@ -15,6 +15,7 @@ import {
 import { Routes } from 'fixtures';
 import { useState } from 'react';
 import { Link, navigate } from '@reach/router';
+import { useAuthentication } from 'modules/auth';
 
 const events = [
   { eventName: 'Events', eventLink: Routes.Home },
@@ -26,6 +27,7 @@ const events = [
 export const Navigation: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const { logoutUser } = useAuthentication();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -43,6 +45,7 @@ export const Navigation: React.FC = () => {
   };
 
   const handleLogout = () => {
+    logoutUser();
     navigate(Routes.Login);
   };
 

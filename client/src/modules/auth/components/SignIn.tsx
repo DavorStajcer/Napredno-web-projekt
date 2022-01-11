@@ -14,18 +14,22 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material';
+import { LoginData, useAuthentication } from 'modules/auth';
+import { useForm } from 'react-hook-form';
 
 const theme = createTheme();
 
 export const SignIn: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const { register, handleSubmit } = useForm<LoginData>();
+  const { loginWithEmailPassword } = useAuthentication();
+  const onSubmit = handleSubmit((data: LoginData) => {
+    const loginData: LoginData = {
+      email: data.email,
+      password: data.password,
+    };
+    console.log('User login data', loginData);
+    loginWithEmailPassword(loginData);
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,27 +65,20 @@ export const SignIn: React.FC = () => {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                required
                 fullWidth
                 id="email"
+                {...register('email', { required: true })}
                 label="Email Address"
-                name="email"
                 autoComplete="email"
                 autoFocus
               />
               <TextField
                 margin="normal"
-                required
                 fullWidth
-                name="password"
+                {...register('password', { required: true })}
                 label="Password"
                 type="password"
                 id="password"
@@ -94,6 +91,7 @@ export const SignIn: React.FC = () => {
               <Button
                 type="submit"
                 fullWidth
+                onClick={onSubmit}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >

@@ -2,10 +2,9 @@ export interface AuthData {
   token: string;
   refreshToken: string;
   userId: string;
-  didAutoLogout: boolean;
-  authenticated: boolean;
-  confirmation: string;
-  message: string;
+  confirmation?: string;
+  message?: string;
+  didAutoLogout?: boolean;
 }
 
 export class AuthData {
@@ -14,7 +13,6 @@ export class AuthData {
     refreshToken,
     userId,
     didAutoLogout,
-    authenticated,
     confirmation,
     message,
   }: AuthData) {
@@ -22,14 +20,13 @@ export class AuthData {
     this.refreshToken = refreshToken;
     this.userId = userId;
     this.didAutoLogout = didAutoLogout;
-    this.authenticated = authenticated;
     this.confirmation = confirmation;
     this.message = message;
   }
 }
 
 export interface Auth {
-  authData: AuthData;
+  data: AuthData;
   loading: boolean;
   error: string | unknown;
 }

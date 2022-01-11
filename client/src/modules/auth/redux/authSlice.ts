@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Auth } from 'models';
+import { RootState } from 'modules/redux-store';
 
 const initialState: Auth = {
-  authData: {
-    authenticated: false,
+  data: {
     confirmation: '',
     didAutoLogout: false,
     message: '',
@@ -23,7 +23,7 @@ export const authSlice = createSlice({
       state.loading = true;
     },
     registerFulfilled: (state, action) => {
-      state.authData = action.payload;
+      state.data = action.payload;
       state.loading = false;
     },
     registerRejected: (state, { payload }) => {
@@ -34,7 +34,7 @@ export const authSlice = createSlice({
       state.loading = true;
     },
     loginFulfilled: (state, action) => {
-      state.authData = action.payload;
+      state.data = action.payload;
       state.loading = false;
     },
     loginRejected: (state, { payload }) => {
@@ -45,17 +45,31 @@ export const authSlice = createSlice({
       state.loading = true;
     },
     refreshTokenFulfilled: (state, action) => {
-      state.authData.refreshToken = action.payload;
+      state.data = action.payload;
       state.loading = false;
     },
     refreshTokenRejected: (state, { payload }) => {
       state.error = payload;
       state.loading = false;
     },
+
+    logout: (state) => {
+      state.data = {
+        userId: '',
+        refreshToken: '',
+        token: '',
+        confirmation: '',
+        didAutoLogout: false,
+        message: '',
+      };
+      state.loading = false;
+    },
   },
 });
 
 export const authReducer = authSlice.reducer;
+export const selectAuth = (state: RootState) => state.auth.data;
+export const selectAuthLoading = (state: RootState) => state.auth.loading;
 export const {
   registerPending,
   registerFulfilled,
@@ -66,4 +80,5 @@ export const {
   refreshTokenPending,
   refreshTokenFulfilled,
   refreshTokenRejected,
+  logout,
 } = authSlice.actions;

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import axios from 'axios';
 import {
   LoginData,
   loginFulfilled,
@@ -14,6 +13,8 @@ import {
   registerRejected,
 } from 'modules/auth';
 import { API } from 'fixtures';
+import { navigate } from '@reach/router';
+import { Routes } from 'fixtures';
 import { AppDispatch, AppThunk } from 'modules/redux-store';
 
 const registerUserEndpoint = '/api/auth/register';
@@ -22,7 +23,7 @@ const refreshTokenEndpoint = '/api/auth/refresh-token';
 /*
 const config = {
   headers: { Authorization: `Bearer ${token}` },
-};
+}; 
 */
 
 export const registerUser =
@@ -30,18 +31,11 @@ export const registerUser =
   async (dispatch: AppDispatch) => {
     try {
       dispatch(registerPending());
-      const headers = {
-        'Content-Type': 'application/json',
-      };
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/register',
-        registerData,
-        {
-          headers: headers,
-        },
-      );
+      const response = await API.post(registerUserEndpoint, registerData);
       const data = response.data;
+      console.log('Register response', response.data);
       dispatch(registerFulfilled(data));
+      navigate(Routes.Login);
     } catch (error) {
       console.log(error);
       dispatch(registerRejected(error));
@@ -58,7 +52,9 @@ export const loginUser =
       //token- create,edit,delete post i fetch users events u Bearer ide ovaj
       //refreshtoken- autologin
       console.log('data', data);
+
       dispatch(loginFulfilled(data));
+      navigate(Routes.Home);
     } catch (error) {
       dispatch(loginRejected(error));
     }
@@ -69,8 +65,9 @@ export const getRefreshToken =
   async (dispatch: AppDispatch) => {
     try {
       dispatch(refreshTokenPending());
-      const response = await API.post(loginEndpoint, refreshToken);
+      const response = await API.post(refreshTokenEndpoint, refreshToken);
       const data = response.data;
+      console.log('refresh token data', data);
       dispatch(refreshTokenFulfilled(data));
     } catch (error) {
       dispatch(refreshTokenRejected(error));

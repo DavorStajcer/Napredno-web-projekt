@@ -9,7 +9,7 @@ import {
 import { Event } from 'models';
 import { API } from 'fixtures';
 
-const allEventsEndPoint = '/allEvents.json';
+const allEventsEndPoint = '/fetch-all';
 const fetchEventByIdEndpoint = '/api/event/fetch-one.json';
 const fetchAllFutureEvents = '/api/event/fetch-all-future-events.json';
 const createEventEndpoint = '/api/event/create-event.json';

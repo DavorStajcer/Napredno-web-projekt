@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Avatar,
   Button,
@@ -11,22 +13,25 @@ import {
   ThemeProvider,
 } from '@mui/material';
 import { Link } from '@reach/router';
+import { useForm } from 'react-hook-form';
 import { Routes } from 'fixtures';
+import { RegisterData, useAuthentication } from 'modules/auth';
 
 const theme = createTheme();
 
 export const SignUp: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      confirmPassword: data.get('confirmPassword'),
-    });
-  };
+  const { register, handleSubmit } = useForm<RegisterData>();
+  const { registerWithEmailPassword } = useAuthentication();
+  const onSubmit = handleSubmit((data: RegisterData) => {
+    const registerData: RegisterData = {
+      email: data.email,
+      name: data.name,
+      surname: data.surname,
+      password: data.password,
+    };
+    console.log('User register data', registerData);
+    registerWithEmailPassword(registerData);
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,19 +49,13 @@ export const SignUp: React.FC = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
-                  required
                   fullWidth
+                  {...register('name', { required: true })}
                   id="firstName"
                   label="First Name"
                   autoFocus
@@ -64,43 +63,29 @@ export const SignUp: React.FC = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
                   id="lastName"
+                  {...register('surname', { required: true })}
                   label="Last Name"
-                  name="lastName"
                   autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="email"
                   label="Email Address"
-                  name="email"
+                  {...register('email', { required: true })}
                   autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  name="password"
                   label="Password"
                   type="password"
+                  {...register('password', { required: true })}
                   id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirmPassword"
                   autoComplete="new-password"
                 />
               </Grid>
@@ -109,6 +94,7 @@ export const SignUp: React.FC = () => {
               type="submit"
               fullWidth
               variant="contained"
+              onClick={onSubmit}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
