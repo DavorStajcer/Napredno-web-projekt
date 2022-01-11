@@ -68,7 +68,7 @@ export const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-export const selectAuth = (state: RootState) => state.auth.data;
+export const selectAuth = (state: RootState) => state.auth;
 export const selectAuthLoading = (state: RootState) => state.auth.loading;
 export const {
   registerPending,

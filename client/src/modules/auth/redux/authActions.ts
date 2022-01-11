@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   LoginData,
   loginFulfilled,
@@ -33,7 +32,7 @@ export const registerUser =
       dispatch(registerPending());
       const response = await API.post(registerUserEndpoint, registerData);
       const data = response.data;
-      console.log('Register response', response.data);
+
       dispatch(registerFulfilled(data));
       navigate(Routes.Login);
     } catch (error) {
@@ -51,8 +50,8 @@ export const loginUser =
       const data = response.data;
       //token- create,edit,delete post i fetch users events u Bearer ide ovaj
       //refreshtoken- autologin
-      console.log('data', data);
-
+      console.log(data.data.userId);
+      localStorage.setItem('userId', data.data.userId);
       dispatch(loginFulfilled(data));
       navigate(Routes.Home);
     } catch (error) {

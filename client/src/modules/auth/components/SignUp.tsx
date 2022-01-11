@@ -29,7 +29,7 @@ export const SignUp: React.FC = () => {
       surname: data.surname,
       password: data.password,
     };
-    console.log('User register data', registerData);
+
     registerWithEmailPassword(registerData);
   });
 

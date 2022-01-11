@@ -29,6 +29,7 @@ export const useAuthentication = () => {
 
   const logoutUser = () => {
     dispatch(logout());
+    localStorage.removeItem('userId');
   };
 
   return {

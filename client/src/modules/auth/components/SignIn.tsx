@@ -27,7 +27,7 @@ export const SignIn: React.FC = () => {
       email: data.email,
       password: data.password,
     };
-    console.log('User login data', loginData);
+
     loginWithEmailPassword(loginData);
   });
 

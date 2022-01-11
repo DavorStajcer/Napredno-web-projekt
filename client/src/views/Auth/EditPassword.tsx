@@ -1,10 +1,13 @@
 import { Layout } from 'components';
 import { EditPasswordForm } from 'modules/user';
+import { PrivateAuthGuard } from 'modules/auth';
 
 export const EditPassword: React.FC = () => {
   return (
-    <Layout>
-      <EditPasswordForm />
-    </Layout>
+    <PrivateAuthGuard>
+      <Layout>
+        <EditPasswordForm />
+      </Layout>
+    </PrivateAuthGuard>
   );
 };

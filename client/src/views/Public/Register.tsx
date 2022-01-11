@@ -1,9 +1,9 @@
-import { SignUp } from 'modules/auth';
+import { PublicAuthGuard, SignUp } from 'modules/auth';
 
 export const Register: React.FC = () => {
   return (
-    <div>
+    <PublicAuthGuard>
       <SignUp />
-    </div>
+    </PublicAuthGuard>
   );
 };

@@ -1,10 +1,13 @@
 import { Layout } from 'components';
 import { EventItem } from 'modules/event';
+import { PrivateAuthGuard } from 'modules/auth';
 
 export const SingleEvent: React.FC = () => {
   return (
-    <Layout>
-      <EventItem />
-    </Layout>
+    <PrivateAuthGuard>
+      <Layout>
+        <EventItem />
+      </Layout>
+    </PrivateAuthGuard>
   );
 };
