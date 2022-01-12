@@ -9,7 +9,7 @@ import {
   fetchByIdFulfilled,
   fetchByIdPending,
   fetchByIdRejected,
-  FetchUserById,
+  idUser,
 } from 'modules/user';
 
 const fetchUserByIdEndpoint = '/api/user/fetch';
@@ -19,7 +19,7 @@ const editUserPasswordEndpoint = '/api/user/edit-password.json';
 
 export const fetchUserById = createAsyncThunk(
   'user/fetchUserById',
-  async (userData: FetchUserById) => {
+  async (userData: idUser) => {
     try {
       const response = await API.post(fetchUserByIdEndpoint, userData.userId, {
         headers: { Authorization: `Bearer ${userData.token}` },
@@ -49,15 +49,15 @@ export const fetchAllUsers = createAsyncThunk(
   },
 );
 
-export const fetchByIdUser =
-  (allUsers: User[], auth: Auth): AppThunk =>
-  async (dispatch: AppDispatch) => {
-    try {
-      dispatch(fetchByIdPending());
-      const user = allUsers.find((user) => user._id === auth.data.userId);
-      console.log('user by id', user);
-      dispatch(fetchByIdFulfilled(user));
-    } catch (error) {
-      dispatch(fetchByIdRejected(error));
-    }
-  };
+// export const fetchByIdUser =
+//   (allUsers: User[], auth: Auth): AppThunk =>
+//   async (dispatch: AppDispatch) => {
+//     try {
+//       dispatch(fetchByIdPending());
+//       const user = allUsers.find((user) => user._id === auth.data.userId);
+//       console.log('user by id', user);
+//       dispatch(fetchByIdFulfilled(user));
+//     } catch (error) {
+//       dispatch(fetchByIdRejected(error));
+//     }
+//   };

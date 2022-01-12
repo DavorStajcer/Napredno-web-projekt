@@ -15,8 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAuth } from 'modules/auth';
 import {
   fetchAllUsers,
-  fetchByIdUser,
-  FetchUserById,
   fetchUserById,
   getById,
   selectAllUsers,

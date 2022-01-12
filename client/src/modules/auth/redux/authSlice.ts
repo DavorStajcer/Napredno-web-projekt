@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Auth } from 'models';
 import { RootState } from 'modules/redux-store';
 
@@ -22,7 +23,8 @@ export const authSlice = createSlice({
       state.loading = true;
     },
     registerFulfilled: (state, action) => {
-      state.data = action.payload;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
       state.loading = false;
     },
     registerRejected: (state, { payload }) => {

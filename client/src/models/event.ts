@@ -1,47 +1,52 @@
 export interface Event {
-  id: string;
+  _id: string;
   imageUrl: string;
   name: string;
   description: string;
   date: Date;
   location: string;
-  numberOfSlots: number;
+  maxAttendees: number;
   count: number;
-  adminName: string;
-  adminSurname: string;
+  userName: string;
+  userSurname: string;
+  userEmail: string;
   adminId: string;
 }
 
 export class Event {
   constructor({
-    id,
+    _id,
     name,
     imageUrl,
     date,
     location,
-    numberOfSlots,
+    maxAttendees,
     description,
     count,
-    adminName,
-    adminSurname,
+    userName,
+    userSurname,
+    userEmail,
     adminId,
   }: Event) {
-    this.id = id;
+    this._id = _id;
     this.name = name;
     this.imageUrl = imageUrl;
     this.date = date;
     this.location = location;
-    this.numberOfSlots = numberOfSlots;
+    this.maxAttendees = maxAttendees;
     this.description = description;
     this.count = count;
-    this.adminName = adminName;
-    this.adminSurname = adminSurname;
+    this.userName = userName;
+    this.userSurname = userSurname;
+    this.userEmail = userEmail;
     this.adminId = adminId;
   }
 }
 
 export interface AllEvents {
   allEvents: Event[];
+  futureEvents: Event[];
+  passedEvents: Event[];
   loading: boolean;
   error: string | unknown;
 }

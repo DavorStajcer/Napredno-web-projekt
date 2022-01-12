@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AllEvents, Event } from 'models';
-import { postEvent } from 'modules/event';
+import { getAllFutureEvents, postEvent } from 'modules/event';
 import { RootState } from 'modules/redux-store';
 
 const initialState: AllEvents = {
   allEvents: [],
+  futureEvents: [],
+  passedEvents: [],
   error: '',
   loading: false,
 };
@@ -24,6 +26,11 @@ export const eventSlice = createSlice({
       state.error = payload;
       state.loading = false;
     },
+    getPassedEvents: (state) => {
+      state.passedEvents = state.allEvents.filter(
+        (event) => new Date(event.date).getTime() < new Date().getTime(),
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postEvent.pending, (state) => {
@@ -36,6 +43,17 @@ export const eventSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     });
+    builder.addCase(getAllFutureEvents.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getAllFutureEvents.fulfilled, (state, action) => {
+      state.loading = false;
+      state.allEvents = action.payload.data.events;
+    });
+    builder.addCase(getAllFutureEvents.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
   },
 });
 
@@ -44,6 +62,9 @@ export const {
   fetchAllEventsPending,
   fetchAllEventsFulfilled,
   fetchAllEventsRejected,
+  getPassedEvents,
 } = eventSlice.actions;
 export const selectAllEvents = (state: RootState) => state.events.allEvents;
+export const selectPassedEvents = (state: RootState) =>
+  state.events.passedEvents;
 export const selectEventsLoading = (state: RootState) => state.events.loading;

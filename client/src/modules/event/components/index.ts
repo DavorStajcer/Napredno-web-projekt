@@ -4,5 +4,4 @@ export * from './EventItem';
 export * from './CreateEventForm';
 export * from './MyEventsList';
 export * from './EditEventForm';
-export * from './FutureEventPreview';
 export * from './PassedEventPreview';

@@ -3,6 +3,6 @@ export interface EditEventData {
   description: string;
   location: string;
   date: Date;
-  numberOfSlots: number;
+  maxAttendees: number;
   eventId: string;
 }

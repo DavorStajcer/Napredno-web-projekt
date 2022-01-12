@@ -1,4 +1,4 @@
-export interface FetchUserById {
+export interface idUser {
   token: string;
   userId: string;
 }

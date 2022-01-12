@@ -3,6 +3,7 @@ import {
   loginFulfilled,
   loginPending,
   loginRejected,
+  logout,
   refreshTokenFulfilled,
   refreshTokenPending,
   refreshTokenRejected,
@@ -45,9 +46,10 @@ export const loginUser =
 
       //token- create,edit,delete post i fetch users events u Bearer ide ovaj
       //refreshtoken- autologin
-      console.log(data.data.userId);
+      // console.log('login data', data.data.userId);
       localStorage.setItem('userId', data.data.userId);
       localStorage.setItem('refreshToken', data.data.refreshToken);
+      localStorage.setItem('token', data.data.token);
       dispatch(loginFulfilled(data));
       navigate(Routes.Home);
     } catch (error) {
@@ -60,11 +62,31 @@ export const getToken =
   async (dispatch: AppDispatch) => {
     try {
       dispatch(refreshTokenPending());
-      const response = await API.post(refreshTokenEndpoint, refreshToken);
+      /*
+      {
+        headers: { Authorization: `Bearer ${event.token}` },
+      }
+      headers: {
+    accept: 'application/json',
+  },
+      */
+      const response = await API.post(refreshTokenEndpoint, refreshToken, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       const data = response.data;
       console.log('refresh token data', data);
       dispatch(refreshTokenFulfilled(data));
     } catch (error) {
+      if (error) {
+        navigate(Routes.Login);
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+      }
+      console.log(error);
+      dispatch(logout());
       dispatch(refreshTokenRejected(error));
     }
   };

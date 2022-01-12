@@ -3,6 +3,8 @@ import { AllEvents } from 'models';
 
 const initialState: AllEvents = {
   allEvents: [],
+  futureEvents: [],
+  passedEvents: [],
   error: '',
   loading: false,
 };

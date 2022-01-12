@@ -102,7 +102,7 @@ exports.refreshToken = async (requestToken) => {
     );
 
     return {
-      token: newAccessToken,
+      accessToken: newAccessToken,
       refreshToken: refreshToken.token,
     };
   } catch (error) {

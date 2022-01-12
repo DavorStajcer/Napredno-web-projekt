@@ -1,21 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { useState } from 'react';
+import { EditEventData, useEvent } from 'modules/event';
 
-const defaultValues = {
-  eventName: '',
-  eventDescription: '',
-  eventLocation: '',
-  imageUrl: '',
-  max: 0,
-  date: new Date(),
-};
 export const EditEventForm: React.FC = () => {
-  const [formValues, setFormValues] = useState(defaultValues);
+  const { eventById } = useEvent();
+  const event: EditEventData = {
+    date: eventById?.date as Date,
+    description: eventById?.description as string,
+    eventId: eventById?._id as string,
+    location: eventById?.location as string,
+    name: eventById?.name as string,
+    maxAttendees: eventById?.maxAttendees as number,
+  };
+  const [formValues, setFormValues] = useState(event);
   const [dateValue, setDateValue] = useState<Date | null>(new Date());
+  console.log('form values', formValues);
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormValues({
@@ -50,10 +54,9 @@ export const EditEventForm: React.FC = () => {
               mt: 2,
             }}
             id="eventName-input"
-            name="eventName"
             label="Name"
             type="text"
-            value={formValues.eventName}
+            value={event.name}
             onChange={handleInputChange}
           />
         </Grid>
@@ -66,10 +69,9 @@ export const EditEventForm: React.FC = () => {
               mt: 2,
             }}
             id="eventDescription-input"
-            name="eventDescription"
             label="Description"
             type="text"
-            value={formValues.eventDescription}
+            value={event.description}
             onChange={handleInputChange}
           />
         </Grid>
@@ -82,29 +84,13 @@ export const EditEventForm: React.FC = () => {
               mt: 2,
             }}
             id="eventLocation-input"
-            name="eventLocation"
             label="Location"
             type="text"
-            value={formValues.eventLocation}
+            value={event.location}
             onChange={handleInputChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 2,
-            }}
-            id="imageUrl-input"
-            name="imageUrl"
-            label="Image URL"
-            type="text"
-            value={formValues.imageUrl}
-            onChange={handleInputChange}
-          />
-        </Grid>
+
         <Grid item xs={12}>
           <TextField
             sx={{
@@ -115,10 +101,9 @@ export const EditEventForm: React.FC = () => {
               mb: 2,
             }}
             id="max-input"
-            name="max"
             label="Max number of people"
             type="number"
-            value={formValues.max}
+            value={event.maxAttendees}
             onChange={handleInputChange}
           />
         </Grid>
@@ -134,7 +119,7 @@ export const EditEventForm: React.FC = () => {
                 />
               )}
               label="DateTimePicker"
-              value={dateValue}
+              value={event.date}
               onChange={(newValue) => {
                 setDateValue(newValue);
               }}

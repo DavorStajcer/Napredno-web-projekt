@@ -7,11 +7,11 @@ import { useSelector } from 'react-redux';
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const EventList: React.FC = () => {
-  // const { getAllEvents } = useEvent();
+  const { getAllEvents } = useEvent();
   const allEvents = useSelector(selectAllEvents);
-  // useEffect(() => {
-  //   getAllEvents();
-  // }, []);
+  useEffect(() => {
+    getAllEvents();
+  }, []);
 
   return (
     <React.Fragment>
@@ -39,7 +39,7 @@ export const EventList: React.FC = () => {
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
           {allEvents.map((event) => (
-            <EventPreview event={event} key={event.id} />
+            <EventPreview event={event} key={event._id} />
           ))}
         </Grid>
       </Container>

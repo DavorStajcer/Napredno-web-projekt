@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Card,
@@ -7,6 +8,9 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import { getPassedEvents, selectPassedEvents } from 'modules/event';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {
   card: number;

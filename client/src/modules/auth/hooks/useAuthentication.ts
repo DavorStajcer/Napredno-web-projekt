@@ -18,6 +18,7 @@ export const useAuthentication = () => {
 
   const autoLogin = () => {
     const refreshToken = localStorage.getItem('refreshToken');
+    const token = localStorage.getItem('token');
     console.log('refresh token', refreshToken);
     dispatch(getToken(refreshToken as string));
   };
@@ -32,6 +33,7 @@ export const useAuthentication = () => {
   const logoutUser = () => {
     dispatch(logout());
     localStorage.removeItem('userId');
+    localStorage.removeItem('refreshToken');
   };
 
   return {

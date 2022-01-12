@@ -16,7 +16,7 @@ interface Props {
 
 export const EventPreview: React.FC<Props> = ({ event }) => {
   return (
-    <Grid item key={event.id} xs={12} sm={6}>
+    <Grid item key={event._id} xs={12} sm={6}>
       <Card
         sx={{
           height: '100%',
@@ -24,7 +24,7 @@ export const EventPreview: React.FC<Props> = ({ event }) => {
           flexDirection: 'column',
         }}
       >
-        <Link to={`/event/${event.id}`}>
+        <Link to={`/event/${event._id}`}>
           <CardMedia
             height="300"
             component="img"
@@ -40,7 +40,7 @@ export const EventPreview: React.FC<Props> = ({ event }) => {
           <Typography>{event.description}</Typography>
         </CardContent>
         <CardActions>
-          <Link to="/event/dadsadas" style={{ textDecoration: 'none' }}>
+          <Link to={`/event/${event._id}`} style={{ textDecoration: 'none' }}>
             <Button size="small">View</Button>
           </Link>
         </CardActions>

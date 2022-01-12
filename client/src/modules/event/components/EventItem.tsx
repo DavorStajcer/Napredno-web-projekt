@@ -10,12 +10,24 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import React from 'react';
-import { useEvent } from 'modules/event';
+import React, { useEffect } from 'react';
+import { fetchEventById, useEvent } from 'modules/event';
+import { useDispatch } from 'react-redux';
+import { FetchEventByIdData } from 'modules/event/consts/fetchEventByIdData';
+import { useParams } from '@reach/router';
 
 export const EventItem: React.FC = () => {
   const { eventById } = useEvent();
-
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const eventData: FetchEventByIdData = {
+    token: localStorage.getItem('token') as string,
+    eventId: id as string,
+  };
+  console.log('event data by id', eventData);
+  useEffect(() => {
+    dispatch(fetchEventById(eventData));
+  }, []);
   return (
     <React.Fragment>
       <GlobalStyles
@@ -50,7 +62,7 @@ export const EventItem: React.FC = () => {
               </Typography>
               <Typography gutterBottom>{eventById?.description}</Typography>
 
-              <Typography gutterBottom>{eventById?.numberOfSlots}</Typography>
+              <Typography gutterBottom>{eventById?.maxAttendees}</Typography>
               <Typography>{eventById?.count}</Typography>
             </CardContent>
             <CardActions>

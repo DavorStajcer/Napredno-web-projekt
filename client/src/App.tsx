@@ -7,13 +7,16 @@ import { useSelector } from 'react-redux';
 
 export const App: React.FC = () => {
   const { autoLogin } = useAuthentication();
+  const { getAllUsers } = useUser();
+  const auth = useSelector(selectAuth);
   useEffect(() => {
     autoLogin();
+    getAllUsers(auth.data.token);
   }, []);
-  // const auth = useSelector(selectAuth);
-  // const { getAllUsers } = useUser();
+  //
+  //
   // useEffect(() => {
-  //   getAllUsers(auth.data.token);
+  //
   // }, []);
   return (
     <>
