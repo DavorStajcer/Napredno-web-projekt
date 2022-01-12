@@ -26,7 +26,6 @@ exports.postRegisterUser = async (req, res, next) => {
       message: "User registered",
     });
   } catch (error) {
-    error.statusCode = 404;
     next(error);
   }
 };

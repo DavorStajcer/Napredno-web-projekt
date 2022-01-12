@@ -33,6 +33,7 @@ exports.editEvent = async (
   location,
   date,
   maxAttendees,
+  imageUrl,
   adminId
 ) => {
   try {
@@ -58,6 +59,7 @@ exports.editEvent = async (
         location: location,
         date: date,
         maxAttendees: maxAttendees,
+        imageUrl: imageUrl
       }
     );
   } catch (error) {
