@@ -17,7 +17,6 @@ exports.getFetchUser = async (req, res, next) => {
       },
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -33,7 +32,6 @@ exports.getFetchAllUsers = async (req, res, next) => {
       },
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -51,7 +49,6 @@ exports.postEditUserInfo = async (req, res, next) => {
       },
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -66,7 +63,6 @@ exports.postEditUserPassword = async (req, res, next) => {
       message: "Edited user password",
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
