@@ -20,7 +20,7 @@ exports.fetchAllUsers = async () => {
 
 exports.editUserInfo = async (userId, name, surname, email, password) => {
   try {
-    const user = await this.findUserById(userId);
+    const user = await User.findById(userId);
 
     if (!(await bcrypt.compare(password, user.password))) {
       const error = new Error("Invalid password");
@@ -44,7 +44,7 @@ exports.editUserInfo = async (userId, name, surname, email, password) => {
 
 exports.editUserPassword = async (userId, currentPassword, newPassword) => {
   try {
-    const user = await this.findUserById(userId);
+    const user = await User.findById(userId);
 
     if (!(await bcrypt.compare(currentPassword, user.password))) {
       const error = new Error("Invalid password");
@@ -61,7 +61,7 @@ exports.editUserPassword = async (userId, currentPassword, newPassword) => {
 };
 
 exports.findUserById = async (userId) => {
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).select("-password");
 
   if (!user) {
     const error = new Error("User not found with given id");
