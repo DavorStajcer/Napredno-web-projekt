@@ -1,6 +1,7 @@
 const {
   createReservation,
   deleteReservation,
+  fetchUserReservations
 } = require("../services/reservation.services.js");
 
 exports.postCreateReservation = async (req, res, next) => {
@@ -32,3 +33,20 @@ exports.postDeleteReservation = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getFetchUserReservations = async (req, res, next) => {
+    const userId = req.userId;
+
+    try {
+        const reservations = await fetchUserReservations(userId);
+        res.status(200).json({
+            confirmation: "success",
+            message: "Fetched user reservations",
+            data: {
+              reservations: reservations
+            },
+          });
+    } catch (error) {
+        throw error;
+    }
+}

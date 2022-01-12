@@ -10,4 +10,6 @@ router.post("/create", isAuth, reservationController.postCreateReservation);
 
 router.post("/delete", isAuth, reservationController.postDeleteReservation);
 
+router.get('/user', isAuth, reservationController.getFetchUserReservations)
+
 module.exports = router;
