@@ -1,5 +1,6 @@
 const Event = require("../models/event.js");
 const User = require("../models/user.js");
+const Reservation = require('../models/reservation.js');
 
 exports.createEvent = async (
   name,
@@ -33,6 +34,7 @@ exports.editEvent = async (
   location,
   date,
   maxAttendees,
+  imageUrl,
   adminId
 ) => {
   try {
@@ -58,6 +60,7 @@ exports.editEvent = async (
         location: location,
         date: date,
         maxAttendees: maxAttendees,
+        imageUrl: imageUrl
       }
     );
   } catch (error) {
@@ -84,6 +87,7 @@ exports.deleteEvent = async (eventId, adminId) => {
     const deletedEvent = await Event.findOneAndDelete({
       _id: eventId,
     });
+    await Reservation.deleteMany({eventId: eventId});
   } catch (error) {
     throw error;
   }

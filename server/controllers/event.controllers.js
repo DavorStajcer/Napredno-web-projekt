@@ -13,8 +13,6 @@ exports.postCreateEvent = async (req, res, next) => {
 
   const adminId = req.userId;
 
-  console.log(adminId, "admin id");
-
   try {
     await createEvent(
       name,
@@ -35,7 +33,7 @@ exports.postCreateEvent = async (req, res, next) => {
 };
 
 exports.postEditEvent = async (req, res, next) => {
-  const { eventId, name, description, location, date, maxAttendees } = req.body;
+  const { eventId, name, description, location, date, maxAttendees, imageUrl } = req.body;
 
   const adminId = req.userId;
 
@@ -47,6 +45,7 @@ exports.postEditEvent = async (req, res, next) => {
       location,
       date,
       maxAttendees,
+      imageUrl,
       adminId
     );
     res.status(200).json({
@@ -69,7 +68,6 @@ exports.postDeleteEvent = async (req, res, next) => {
       message: "Event deleted",
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -87,7 +85,6 @@ exports.postFetchEventById = async (req, res, next) => {
       },
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -103,7 +100,6 @@ exports.getFetchAllEvents = async (req, res, next) => {
       },
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
@@ -121,7 +117,6 @@ exports.postFetchUserEvents = async (req, res, next) => {
       },
     });
   } catch (error) {
-    error.statusCode = 500;
     next(error);
   }
 };
