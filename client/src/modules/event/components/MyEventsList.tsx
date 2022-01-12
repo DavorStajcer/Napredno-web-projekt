@@ -9,6 +9,7 @@ import {
 import React, { useEffect } from 'react';
 import {
   EventPreview,
+  fetchUserEvents,
   getPassedEvents,
   PassedEventPreview,
   selectAllEvents,
@@ -23,12 +24,14 @@ const cards: any[] = [1, 2, 3];
 export const MyEventsList: React.FC = () => {
   const dispatch = useDispatch();
   const passedEvents = useSelector(selectPassedEvents);
-
+  const token = localStorage.getItem('token');
   const { getAllEvents } = useEvent();
   const allEvents = useSelector(selectAllEvents);
   useEffect(() => {
     getAllEvents();
     dispatch(getPassedEvents());
+    console.log('Sending token to fetch user events', token);
+    dispatch(fetchUserEvents(token as string));
   }, []);
   return (
     <React.Fragment>

@@ -5,145 +5,149 @@ import DateAdapter from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { useState } from 'react';
-import { EditEventData, useEvent } from 'modules/event';
+import { editEventById, EditEventData, useEvent } from 'modules/event';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { navigate } from '@reach/router';
+import { Routes } from 'fixtures';
 
 export const EditEventForm: React.FC = () => {
   const { eventById } = useEvent();
-  const event: EditEventData = {
-    date: eventById?.date as Date,
-    description: eventById?.description as string,
-    eventId: eventById?._id as string,
-    location: eventById?.location as string,
-    name: eventById?.name as string,
-    maxAttendees: eventById?.maxAttendees as number,
-  };
-  const [formValues, setFormValues] = useState(event);
-  const [dateValue, setDateValue] = useState<Date | null>(new Date());
-  console.log('form values', formValues);
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
+  const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm<EditEventData>({
+    defaultValues: eventById,
+  });
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log({ ...formValues, date: dateValue });
-  };
+  const [dateValue, setDateValue] = useState<Date | null>(
+    eventById?.date as Date,
+  );
+
+  const onSubmit = handleSubmit((data: EditEventData) => {
+    if (dateValue === null) {
+      alert('Select date and time');
+      return;
+    }
+    const eventData: EditEventData = {
+      name: data.name,
+      description: data.description,
+      date: dateValue,
+      location: data.location,
+      maxAttendees: data.maxAttendees,
+      eventId: eventById?._id as string,
+      token: localStorage.getItem('token') as string,
+    };
+    console.log('event data', eventData);
+    dispatch(editEventById(eventData));
+    navigate(Routes.MyEvents);
+  });
+
   return (
-    <form onSubmit={handleSubmit}>
-      <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
-        <Grid item xs={12}>
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            component="p"
-          >
-            Edit event
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 2,
-            }}
-            id="eventName-input"
-            label="Name"
-            type="text"
-            value={event.name}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 2,
-            }}
-            id="eventDescription-input"
-            label="Description"
-            type="text"
-            value={event.description}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 2,
-            }}
-            id="eventLocation-input"
-            label="Location"
-            type="text"
-            value={event.location}
-            onChange={handleInputChange}
-          />
-        </Grid>
+    <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
+      <Grid item xs={12}>
+        <Typography
+          variant="h5"
+          align="center"
+          color="text.secondary"
+          component="p"
+        >
+          Edit event
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 2,
+          }}
+          id="eventName-input"
+          label="Name"
+          {...register('name', { required: true })}
+          type="text"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 2,
+          }}
+          id="eventDescription-input"
+          label="Description"
+          type="text"
+          {...register('description', { required: true })}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 2,
+          }}
+          id="eventLocation-input"
+          label="Location"
+          type="text"
+          {...register('location', { required: true })}
+        />
+      </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 2,
-              mb: 2,
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 2,
+            mb: 2,
+          }}
+          id="max-input"
+          label="Max number of people"
+          type="number"
+          {...register('maxAttendees', { required: true })}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+          <DateTimePicker
+            renderInput={(props) => (
+              <TextField
+                sx={{
+                  width: '100%',
+                }}
+                {...props}
+              />
+            )}
+            label="DateTimePicker"
+            value={dateValue}
+            onChange={(newValue) => {
+              setDateValue(newValue as Date);
             }}
-            id="max-input"
-            label="Max number of people"
-            type="number"
-            value={event.maxAttendees}
-            onChange={handleInputChange}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <LocalizationProvider dateAdapter={DateAdapter}>
-            <DateTimePicker
-              renderInput={(props) => (
-                <TextField
-                  sx={{
-                    width: '100%',
-                  }}
-                  {...props}
-                />
-              )}
-              label="DateTimePicker"
-              value={event.date}
-              onChange={(newValue) => {
-                setDateValue(newValue);
-              }}
-            />
-          </LocalizationProvider>
-        </Grid>
+        </LocalizationProvider>
+      </Grid>
 
-        <Grid item xs={12}>
-          <Button
-            sx={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              mb: 1,
-              mt: 1,
-            }}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Edit event
-          </Button>
-        </Grid>
-      </Container>
-    </form>
+      <Grid item xs={12}>
+        <Button
+          sx={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            mb: 1,
+            mt: 1,
+          }}
+          variant="contained"
+          onClick={onSubmit}
+          color="primary"
+          type="submit"
+        >
+          Edit event
+        </Button>
+      </Grid>
+    </Container>
   );
 };

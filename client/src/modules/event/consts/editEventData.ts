@@ -5,4 +5,5 @@ export interface EditEventData {
   date: Date;
   maxAttendees: number;
   eventId: string;
+  token: string;
 }

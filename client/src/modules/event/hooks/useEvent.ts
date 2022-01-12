@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { navigate, useParams } from '@reach/router';
 import { EventData, selectAllEvents } from 'modules/event';
-import {
-  getAllAvailableEvents,
-  getAllFutureEvents,
-} from 'modules/event/redux/eventActions';
+import { getAllFutureEvents } from 'modules/event/redux/eventActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEvent } from 'modules/event';
 import { Routes } from 'fixtures';

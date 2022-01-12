@@ -7,14 +7,28 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
+import { Routes } from 'fixtures';
 import { Event } from 'models';
+import { deleteEvent } from 'modules/event';
+import { DeleteEventData } from 'modules/event/consts/deleteEventData';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   event: Event;
 }
 
 export const FutureEvent: React.FC<Props> = ({ event }) => {
+  const dispatch = useDispatch();
+  const handleDelete = () => {
+    const deleteEventData: DeleteEventData = {
+      eventId: event._id as string,
+      token: localStorage.getItem('token') as string,
+    };
+    console.log('event data', deleteEventData);
+    dispatch(deleteEvent(deleteEventData));
+    navigate(Routes.MyEvents);
+  };
   return (
     <Grid item key={event._id} xs={12} sm={6}>
       <Card
@@ -47,7 +61,9 @@ export const FutureEvent: React.FC<Props> = ({ event }) => {
             <Button size="small">Edit</Button>
           </Link>
 
-          <Button size="small">Delete</Button>
+          <Button size="small" onClick={handleDelete}>
+            Delete
+          </Button>
         </CardActions>
       </Card>
     </Grid>
