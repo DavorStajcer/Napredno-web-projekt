@@ -30,4 +30,26 @@ exports.createReservation = async (userId, eventId) => {
   }
 };
 
+exports.deleteReservation = async (userId, reservationId) => {
+    try {
+        const reservation = await Reservation.findById(reservationId);
 
+        if(!reservation) {
+            const error = new Error("Reservation not found");
+            error.statusCode = 404;
+            throw error;
+        }
+        console.log(reservation);
+
+        if (reservation.userId !== userId) {
+            const error = new Error("Reservation not found");
+            error.statusCode = 403;
+            throw error;
+        }
+
+        await Event.findByIdAndUpdate(reservation.eventId, { $inc: { count: -1 } });
+        await Reservation.findByIdAndDelete(reservationId);
+    } catch (error) {
+        throw error;
+    }
+}
