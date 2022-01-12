@@ -5,9 +5,8 @@ const {
   editUserPassword
 } = require("../services/user.services.js");
 
-exports.postFetchUserById = async (req, res, next) => {
-  const { userId } = req.body;
-
+exports.getFetchUser = async (req, res, next) => {
+  const userId = req.userId;
   try {
     const userData = await fetchUserById(userId);
     res.status(200).json({
@@ -40,8 +39,8 @@ exports.getFetchAllUsers = async (req, res, next) => {
 };
 
 exports.postEditUserInfo = async (req, res, next) => {
-  const { userId, name, surname, email, password } = req.body;
-
+  const { name, surname, email, password } = req.body;
+  const userId = req.userId;
   try {
     const user = await editUserInfo(userId, name, surname, email, password);
     res.status(200).json({
@@ -58,8 +57,8 @@ exports.postEditUserInfo = async (req, res, next) => {
 };
 
 exports.postEditUserPassword = async (req, res, next) => {
-  const { userId, currentPassword, newPassword } = req.body;
-
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.userId;
   try {
     await editUserPassword(userId, currentPassword, newPassword);
     res.status(200).json({
