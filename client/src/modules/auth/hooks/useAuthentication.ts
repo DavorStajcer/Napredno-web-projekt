@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch } from 'react-redux';
 
 import {
-  getRefreshToken,
+  getToken,
   LoginData,
   loginUser,
   logout,
@@ -15,9 +16,10 @@ import { Routes } from 'fixtures';
 export const useAuthentication = () => {
   const dispatch = useDispatch();
 
-  const autoLogin = (refreshToken: string) => {
-    console.log('Refresh token in useAuth', refreshToken);
-    dispatch(getRefreshToken(refreshToken));
+  const autoLogin = () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    console.log('refresh token', refreshToken);
+    dispatch(getToken(refreshToken as string));
   };
 
   const registerWithEmailPassword = (data: RegisterData) => {

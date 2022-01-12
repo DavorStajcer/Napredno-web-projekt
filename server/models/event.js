@@ -31,6 +31,10 @@ const eventSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports =  mongoose.model("Event", eventSchema);
+module.exports = mongoose.model("Event", eventSchema);

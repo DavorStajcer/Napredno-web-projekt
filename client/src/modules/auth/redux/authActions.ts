@@ -19,11 +19,6 @@ import { AppDispatch, AppThunk } from 'modules/redux-store';
 const registerUserEndpoint = '/api/auth/register';
 const loginEndpoint = '/api/auth/login';
 const refreshTokenEndpoint = '/api/auth/refresh-token';
-/*
-const config = {
-  headers: { Authorization: `Bearer ${token}` },
-}; 
-*/
 
 export const registerUser =
   (registerData: RegisterData): AppThunk =>
@@ -32,7 +27,6 @@ export const registerUser =
       dispatch(registerPending());
       const response = await API.post(registerUserEndpoint, registerData);
       const data = response.data;
-
       dispatch(registerFulfilled(data));
       navigate(Routes.Login);
     } catch (error) {
@@ -48,10 +42,12 @@ export const loginUser =
       dispatch(loginPending());
       const response = await API.post(loginEndpoint, loginData);
       const data = response.data;
+
       //token- create,edit,delete post i fetch users events u Bearer ide ovaj
       //refreshtoken- autologin
       console.log(data.data.userId);
       localStorage.setItem('userId', data.data.userId);
+      localStorage.setItem('refreshToken', data.data.refreshToken);
       dispatch(loginFulfilled(data));
       navigate(Routes.Home);
     } catch (error) {
@@ -59,7 +55,7 @@ export const loginUser =
     }
   };
 
-export const getRefreshToken =
+export const getToken =
   (refreshToken: string): AppThunk =>
   async (dispatch: AppDispatch) => {
     try {

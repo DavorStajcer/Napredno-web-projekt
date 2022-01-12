@@ -4,19 +4,18 @@ import { RootState } from 'modules/redux-store';
 
 const initialState: Auth = {
   data: {
-    confirmation: '',
-    didAutoLogout: false,
-    message: '',
     refreshToken: '',
     token: '',
     userId: '',
   },
+  confirmation: '',
+  message: '',
   error: '',
   loading: false,
 };
 
 export const authSlice = createSlice({
-  name: 'events',
+  name: 'auth',
   initialState,
   reducers: {
     registerPending: (state) => {
@@ -34,7 +33,9 @@ export const authSlice = createSlice({
       state.loading = true;
     },
     loginFulfilled: (state, action) => {
-      state.data = action.payload;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
+      state.data = action.payload.data;
       state.loading = false;
     },
     loginRejected: (state, { payload }) => {
@@ -52,16 +53,10 @@ export const authSlice = createSlice({
       state.error = payload;
       state.loading = false;
     },
-
     logout: (state) => {
-      state.data = {
-        userId: '',
-        refreshToken: '',
-        token: '',
-        confirmation: '',
-        didAutoLogout: false,
-        message: '',
-      };
+      state.confirmation = '';
+      state.message = '';
+      state.data = { token: '', refreshToken: '', userId: '' };
       state.loading = false;
     },
   },

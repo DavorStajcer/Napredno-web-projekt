@@ -1,25 +1,30 @@
 export interface User {
-  id?: string;
+  _id: string;
+  email: string;
   name: string;
   surname: string;
   password: string;
-  email: string;
+  token?: string;
   admin: boolean;
 }
 
 export class User {
-  constructor({ id, name, surname, password, email, admin }: User) {
-    this.id = id;
+  constructor({ _id, name, surname, password, email, admin, token }: User) {
+    this._id = _id;
     this.name = name;
     this.surname = surname;
     this.password = password;
     this.email = email;
     this.admin = admin;
+    this.token = token;
   }
 }
 
 export interface AllUsers {
+  user: User;
   allUsers: User[];
+  confirmation: string;
+  message: string;
   loading: boolean;
   error: string | unknown;
 }

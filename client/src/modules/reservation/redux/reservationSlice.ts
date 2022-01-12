@@ -8,7 +8,7 @@ const initialState: AllEvents = {
 };
 
 export const reservationSlice = createSlice({
-  name: 'events',
+  name: 'reservation',
   initialState,
   reducers: {},
 });

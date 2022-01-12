@@ -8,11 +8,42 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuth } from 'modules/auth';
+import {
+  fetchAllUsers,
+  fetchByIdUser,
+  FetchUserById,
+  fetchUserById,
+  getById,
+  selectAllUsers,
+  selectUser,
+  useUser,
+} from 'modules/user';
 
 export const UserInformation: React.FC = () => {
+  //const auth = useSelector(selectAuth);
+  //const user = useSelector(selectUser);
+  //const allUsers = useSelector(selectAllUsers);
+  //const { getUserById } = useUser();
+  // const { getAllUsers } = useUser();
+  // const userData: FetchUserById = {
+  //   token: auth.data.token,
+  //   userId: auth.data.userId,
+  // };
+  // console.log('user data', userData);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //dispatch(fetchUserById(userData));
+    // getUserById();
+    //dispatch(fetchByIdUser(allUsers, auth));
+    //dispatch(getById(auth.data.userId));
+    // getAllUsers(auth.data.token);
+  }, []);
   return (
     <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
       <Grid item xs={12}>
@@ -25,10 +56,10 @@ export const UserInformation: React.FC = () => {
         >
           <CardContent sx={{ flexGrow: 1 }}>
             <Typography gutterBottom variant="h4" component="h2">
-              User name and user surname
+              name surname
             </Typography>
             <Typography gutterBottom variant="h5" component="h2">
-              User email
+              email
             </Typography>
           </CardContent>
           <CardActions>

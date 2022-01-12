@@ -7,7 +7,8 @@ exports.createEvent = async (
   location,
   date,
   maxAttendees,
-  adminId
+  adminId,
+  imageUrl
 ) => {
   try {
     const event = new Event({
@@ -17,6 +18,7 @@ exports.createEvent = async (
       date: new Date(date),
       maxAttendees: maxAttendees,
       adminId: adminId,
+      imageUrl: imageUrl,
     });
     await event.save();
   } catch (error) {
@@ -105,8 +107,8 @@ exports.fetchEventById = async (eventId) => {
       ...event,
       userName: user.name,
       userSurname: user.surname,
-      userEmail: user.email
-    }
+      userEmail: user.email,
+    };
   } catch (error) {
     throw error;
   }
@@ -115,7 +117,9 @@ exports.fetchEventById = async (eventId) => {
 exports.fetchAllFutureEvents = async () => {
   const currentDate = new Date().toISOString();
   try {
-    let events = await Event.find({ date: { $gte: currentDate } }).lean().select("-__v");
+    let events = await Event.find({ date: { $gte: currentDate } })
+      .lean()
+      .select("-__v");
 
     events = await Promise.all(
       events.map(async (event) => {

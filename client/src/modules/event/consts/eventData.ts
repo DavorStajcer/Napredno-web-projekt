@@ -1,7 +1,9 @@
 export interface EventData {
   name: string;
   description: string;
+  imageUrl: string;
   location: string;
   date: Date;
-  numberOfSlots: number;
+  token?: string;
+  maxAttendees: number;
 }

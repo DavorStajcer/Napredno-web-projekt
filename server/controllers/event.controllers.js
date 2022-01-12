@@ -8,14 +8,23 @@ const {
 } = require("../services/event.services.js");
 
 exports.postCreateEvent = async (req, res, next) => {
-  const { name, description, location, date, maxAttendees } = req.body;
+  const { name, description, location, date, maxAttendees, imageUrl } =
+    req.body;
 
   const adminId = req.userId;
 
-  console.log(adminId, 'admin id');
+  console.log(adminId, "admin id");
 
   try {
-    await createEvent(name, description, location, date, maxAttendees, adminId);
+    await createEvent(
+      name,
+      description,
+      location,
+      date,
+      maxAttendees,
+      adminId,
+      imageUrl
+    );
     res.status(200).json({
       confirmation: "success",
       message: "Event created",
@@ -31,7 +40,15 @@ exports.postEditEvent = async (req, res, next) => {
   const adminId = req.userId;
 
   try {
-    await editEvent(eventId, name, description, location, date, maxAttendees, adminId);
+    await editEvent(
+      eventId,
+      name,
+      description,
+      location,
+      date,
+      maxAttendees,
+      adminId
+    );
     res.status(200).json({
       confirmation: "success",
       message: "Event edited",

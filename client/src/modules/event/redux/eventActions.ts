@@ -4,15 +4,17 @@ import {
   fetchAllEventsPending,
   fetchAllEventsFulfilled,
   fetchAllEventsRejected,
+  EventData,
 } from 'modules/event';
 
 import { Event } from 'models';
 import { API } from 'fixtures';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const allEventsEndPoint = '/fetch-all';
 const fetchEventByIdEndpoint = '/api/event/fetch-one.json';
 const fetchAllFutureEvents = '/api/event/fetch-all-future-events.json';
-const createEventEndpoint = '/api/event/create-event.json';
+const createEventEndpoint = '/api/event/create';
 const editEventEndpoint = '/api/event/edit-event.json';
 const deleteEventEndpoint = '/api/event/delete-event.json';
 const fetchUsersEventsEndpoint = '/api/event/fetch-users-events.json';
@@ -28,6 +30,21 @@ export const getAllAvailableEvents =
       dispatch(fetchAllEventsRejected(error));
     }
   };
+
+export const postEvent = createAsyncThunk(
+  'event/postEvent',
+  async (event: EventData) => {
+    try {
+      const response = await API.post(createEventEndpoint, event, {
+        headers: { Authorization: `Bearer ${event.token}` },
+      });
+      const data = response.data;
+      console.log('event response', data);
+    } catch (error) {
+      throw new Error('didnt send event');
+    }
+  },
+);
 
 /*
 
