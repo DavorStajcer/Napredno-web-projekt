@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'models/user';
 import { RootState } from 'modules/redux-store';
-import { fetchUserById } from 'modules/user';
+import { editPassword, editUser, fetchUserById } from 'modules/user';
 
 const initialState: User = {
   confirmation: '',
@@ -42,6 +42,34 @@ export const userSlice = createSlice({
       },
     );
     builder.addCase(fetchUserById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(editUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      editUser.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.loading = false;
+        state.confirmation = action.payload.confirmation;
+        state.message = action.payload.message;
+        state.data = action.payload.data;
+      },
+    );
+    builder.addCase(editUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(editPassword.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(editPassword.fulfilled, (state, action) => {
+      state.loading = false;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
+    });
+    builder.addCase(editPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });

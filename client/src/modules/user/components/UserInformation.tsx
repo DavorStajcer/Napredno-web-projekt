@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Card,
@@ -8,33 +7,14 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAuth } from 'modules/auth';
-import { fetchUserById, selectUser } from 'modules/user';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'modules/user';
 
 export const UserInformation: React.FC = () => {
-  //const auth = useSelector(selectAuth);
-  //const user = useSelector(selectUser);
-  //const allUsers = useSelector(selectAllUsers);
-  //const { getUserById } = useUser();
-  // const { getAllUsers } = useUser();
-  // const userData: FetchUserById = {
-  //   token: auth.data.token,
-  //   userId: auth.data.userId,
-  // };
-  // console.log('user data', userData);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    //dispatch(fetchUserById(userData));
-    // getUserById();
-    //dispatch(fetchByIdUser(allUsers, auth));
-    //dispatch(getById(auth.data.userId));
-    // getAllUsers(auth.data.token);
-  }, []);
+  const user = useSelector(selectUser);
   return (
     <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
       <Grid item xs={12}>
@@ -47,10 +27,10 @@ export const UserInformation: React.FC = () => {
         >
           <CardContent sx={{ flexGrow: 1 }}>
             <Typography gutterBottom variant="h4" component="h2">
-              name surname
+              {user.name} {user.surname}
             </Typography>
             <Typography gutterBottom variant="h5" component="h2">
-              email
+              {user.email}
             </Typography>
           </CardContent>
           <CardActions>

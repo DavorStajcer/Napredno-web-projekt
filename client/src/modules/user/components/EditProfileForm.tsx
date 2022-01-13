@@ -1,25 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import { Routes } from 'fixtures';
-import { editProfile, EditUserData, selectUser } from 'modules/user';
-import { useState } from 'react';
+import { editUser, EditUserData, selectUser } from 'modules/user';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const EditProfileForm: React.FC = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm<EditUserData>();
+  const { register, handleSubmit } = useForm<EditUserData>({
+    defaultValues: user,
+  });
+
   const onSubmit = handleSubmit((data: EditUserData) => {
     const editData: EditUserData = {
       email: data.email,
       name: data.name,
       surname: data.surname,
-      password: user.password,
+      password: data.password,
     };
-    console.log('edit data', editData);
-    dispatch(editProfile(editData));
+    dispatch(editUser(editData));
+    navigate(Routes.Profile);
   });
   return (
     <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
@@ -64,7 +65,20 @@ export const EditProfileForm: React.FC = () => {
           {...register('email')}
         />
       </Grid>
-
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 1,
+          }}
+          id="password-input"
+          label="Password"
+          type="password"
+          {...register('password')}
+        />
+      </Grid>
       <Grid item xs={12}>
         <Button
           sx={{

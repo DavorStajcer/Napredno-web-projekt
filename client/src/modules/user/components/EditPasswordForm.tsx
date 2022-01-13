@@ -1,103 +1,86 @@
 import { Button, Container, Grid, TextField } from '@mui/material';
+import { navigate } from '@reach/router';
+import { Routes } from 'fixtures';
 import { editPassword, EditPasswordData } from 'modules/user';
-import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-const defaultValues = {
-  newPassword: '',
-  confirmPassword: '',
-  oldPassword: '',
-};
 export const EditPasswordForm: React.FC = () => {
-  const [formValues, setFormValues] = useState(defaultValues);
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
-  const passwordData: EditPasswordData = {
-    currentPassword: '12345678',
-    newPassword: '123456',
-  };
+  const { register, handleSubmit } = useForm<EditPasswordData>();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(editPassword(passwordData));
-  }, []);
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log(formValues);
-  };
+  const onSubmit = handleSubmit((data: EditPasswordData) => {
+    if (data.newPassword !== data.confirmNewPassword) {
+      alert('Confirm new password and new password are not same');
+      return;
+    }
+    const editData: EditPasswordData = {
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    };
+    dispatch(editPassword(editData));
+    navigate(Routes.Profile);
+  });
   return (
-    <form onSubmit={handleSubmit}>
-      <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-            id="newPassword-input"
-            name="newPassword"
-            label="New Password"
-            type="password"
-            value={formValues.newPassword}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 1,
-            }}
-            id="confirmPassword-input"
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            value={formValues.confirmPassword}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 1,
-            }}
-            id="oldPassword-input"
-            name="oldPassword"
-            label="Old password"
-            type="password"
-            value={formValues.oldPassword}
-            onChange={handleInputChange}
-          />
-        </Grid>
+    <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          id="newPassword-input"
+          label="New Password"
+          {...register('newPassword', { required: true })}
+          type="password"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 1,
+          }}
+          id="confirmPassword-input"
+          label="Confirm Password"
+          {...register('confirmNewPassword', { required: true })}
+          type="password"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 1,
+          }}
+          id="oldPassword-input"
+          label="Old password"
+          {...register('currentPassword', { required: true })}
+          type="password"
+        />
+      </Grid>
 
-        <Grid item xs={12}>
-          <Button
-            sx={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              mb: 1,
-              mt: 1,
-            }}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Edit password
-          </Button>
-        </Grid>
-      </Container>
-    </form>
+      <Grid item xs={12}>
+        <Button
+          sx={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            mb: 1,
+            mt: 1,
+          }}
+          variant="contained"
+          color="primary"
+          onClick={onSubmit}
+          type="submit"
+        >
+          Edit password
+        </Button>
+      </Grid>
+    </Container>
   );
 };

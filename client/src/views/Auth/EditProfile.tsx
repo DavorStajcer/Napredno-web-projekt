@@ -5,7 +5,6 @@ import { EditProfileForm } from 'modules/user';
 export const EditProfile: React.FC = () => {
   return (
     <PrivateAuthGuard>
-      {' '}
       <Layout>
         <EditProfileForm />
       </Layout>
