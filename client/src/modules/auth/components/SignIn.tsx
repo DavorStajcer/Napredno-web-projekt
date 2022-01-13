@@ -27,7 +27,6 @@ export const SignIn: React.FC = () => {
       email: data.email,
       password: data.password,
     };
-
     loginWithEmailPassword(loginData);
   });
 

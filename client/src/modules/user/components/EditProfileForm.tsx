@@ -16,6 +16,7 @@ export const EditProfileForm: React.FC = () => {
       email: data.email,
       name: data.name,
       surname: data.surname,
+      password: user.password,
     };
     console.log('edit data', editData);
     dispatch(editProfile(editData));

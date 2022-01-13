@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Avatar,
   Button,
@@ -29,7 +27,6 @@ export const SignUp: React.FC = () => {
       surname: data.surname,
       password: data.password,
     };
-
     registerWithEmailPassword(registerData);
   });
 

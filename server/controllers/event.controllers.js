@@ -33,7 +33,8 @@ exports.postCreateEvent = async (req, res, next) => {
 };
 
 exports.postEditEvent = async (req, res, next) => {
-  const { eventId, name, description, location, date, maxAttendees, imageUrl } = req.body;
+  const { eventId, name, description, location, date, maxAttendees, imageUrl } =
+    req.body;
 
   const adminId = req.userId;
 

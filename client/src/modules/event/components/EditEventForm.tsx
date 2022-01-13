@@ -12,32 +12,17 @@ import { navigate } from '@reach/router';
 import { Routes } from 'fixtures';
 
 export const EditEventForm: React.FC = () => {
-  const { eventById } = useEvent();
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm<EditEventData>({
-    defaultValues: eventById,
-  });
+  const { register, handleSubmit } = useForm<EditEventData>();
 
-  const [dateValue, setDateValue] = useState<Date | null>(
-    eventById?.date as Date,
-  );
+  const [dateValue, setDateValue] = useState<Date | null>();
 
   const onSubmit = handleSubmit((data: EditEventData) => {
     if (dateValue === null) {
       alert('Select date and time');
       return;
     }
-    const eventData: EditEventData = {
-      name: data.name,
-      description: data.description,
-      date: dateValue,
-      location: data.location,
-      maxAttendees: data.maxAttendees,
-      eventId: eventById?._id as string,
-      token: localStorage.getItem('token') as string,
-    };
-    console.log('event data', eventData);
-    dispatch(editEventById(eventData));
+
     navigate(Routes.MyEvents);
   });
 

@@ -14,7 +14,6 @@ import { Routes } from 'fixtures';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuth } from 'modules/auth';
 import {
-  fetchAllUsers,
   fetchUserById,
   getById,
   selectAllUsers,

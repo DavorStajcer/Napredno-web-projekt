@@ -4,8 +4,6 @@ import React, { useEffect } from 'react';
 import { EventPreview, selectAllEvents, useEvent } from 'modules/event';
 import { useSelector } from 'react-redux';
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export const EventList: React.FC = () => {
   const { getAllEvents } = useEvent();
   const allEvents = useSelector(selectAllEvents);

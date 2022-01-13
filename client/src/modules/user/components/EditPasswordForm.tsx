@@ -1,5 +1,7 @@
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { useState } from 'react';
+import { editPassword, EditPasswordData } from 'modules/user';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const defaultValues = {
   newPassword: '',
@@ -15,6 +17,14 @@ export const EditPasswordForm: React.FC = () => {
       [name]: value,
     });
   };
+  const passwordData: EditPasswordData = {
+    currentPassword: '12345678',
+    newPassword: '123456',
+  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(editPassword(passwordData));
+  }, []);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();

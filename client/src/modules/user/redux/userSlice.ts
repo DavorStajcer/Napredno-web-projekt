@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AllUsers, User } from 'models/user';
 import { RootState } from 'modules/redux-store';
-import { fetchAllUsers, fetchUserById } from 'modules/user';
+import { fetchUserById } from 'modules/user';
 
 const initialState: AllUsers = {
   allUsers: [],
@@ -57,17 +57,17 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     });
-    builder.addCase(fetchAllUsers.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
-      state.loading = false;
-      state.allUsers = action.payload.data.users;
-    });
-    builder.addCase(fetchAllUsers.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
+    // builder.addCase(fetchAllUsers.pending, (state) => {
+    //   state.loading = true;
+    // });
+    // builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.allUsers = action.payload.data.users;
+    // });
+    // builder.addCase(fetchAllUsers.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.error.message;
+    // });
   },
 });
 

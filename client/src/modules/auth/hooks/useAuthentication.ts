@@ -34,6 +34,7 @@ export const useAuthentication = () => {
     dispatch(logout());
     localStorage.removeItem('userId');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('token');
   };
 
   return {

@@ -43,10 +43,6 @@ export const loginUser =
       dispatch(loginPending());
       const response = await API.post(loginEndpoint, loginData);
       const data = response.data;
-
-      //token- create,edit,delete post i fetch users events u Bearer ide ovaj
-      //refreshtoken- autologin
-      // console.log('login data', data.data.userId);
       localStorage.setItem('userId', data.data.userId);
       localStorage.setItem('refreshToken', data.data.refreshToken);
       localStorage.setItem('token', data.data.token);
@@ -62,21 +58,8 @@ export const getToken =
   async (dispatch: AppDispatch) => {
     try {
       dispatch(refreshTokenPending());
-      /*
-      {
-        headers: { Authorization: `Bearer ${event.token}` },
-      }
-      headers: {
-    accept: 'application/json',
-  },
-      */
-      const response = await API.post(refreshTokenEndpoint, refreshToken, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await API.post(refreshTokenEndpoint, refreshToken);
       const data = response.data;
-      console.log('refresh token data', data);
       dispatch(refreshTokenFulfilled(data));
     } catch (error) {
       if (error) {

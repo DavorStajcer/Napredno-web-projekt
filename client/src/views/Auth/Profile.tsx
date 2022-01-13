@@ -1,18 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Layout } from 'components';
 import { fetchUserById, idUser, UserInformation } from 'modules/user';
 import { PrivateAuthGuard } from 'modules/auth';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { testRefreshToken } from 'testRequests';
 
 export const Profile: React.FC = () => {
   const dispatch = useDispatch();
-  const userData: idUser = {
-    token: localStorage.getItem('token') as string,
-    userId: localStorage.getItem('userId') as string,
-  };
-  console.log('profile page, userdata from local storage', userData);
+
+  const token = localStorage.getItem('token') as string;
+
+  testRefreshToken('b35aab0e-f040-4761-81c0-2343c96c168f');
   useEffect(() => {
-    dispatch(fetchUserById(userData));
+    dispatch(fetchUserById(token));
   }, []);
   return (
     <PrivateAuthGuard>

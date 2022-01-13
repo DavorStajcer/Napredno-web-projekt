@@ -29,9 +29,10 @@ export const MyEventsList: React.FC = () => {
   const allEvents = useSelector(selectAllEvents);
   useEffect(() => {
     getAllEvents();
-    dispatch(getPassedEvents());
-    console.log('Sending token to fetch user events', token);
-    dispatch(fetchUserEvents(token as string));
+
+    // dispatch(getPassedEvents());
+    // console.log('Sending token to fetch user events', token);
+    // dispatch(fetchUserEvents(token as string));
   }, []);
   return (
     <React.Fragment>

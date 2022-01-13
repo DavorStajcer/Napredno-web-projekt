@@ -6,6 +6,8 @@ import { Auth } from 'models/auth';
 import { User } from 'models/user';
 import { AppDispatch, AppThunk } from 'modules/redux-store';
 import {
+  EditPasswordData,
+  EditUserData,
   fetchByIdFulfilled,
   fetchByIdPending,
   fetchByIdRejected,
@@ -14,18 +16,18 @@ import {
 
 const fetchUserByIdEndpoint = '/api/user/fetch';
 const fetchAllUsersEndpoint = '/api/user/fetch-all';
-const editUserEndpoint = '/api/user/editUser.json';
-const editUserPasswordEndpoint = '/api/user/edit-password.json';
+const editUserEndpoint = '/api/user/edit';
+const editUserPasswordEndpoint = '/api/user/edit-password';
 
 export const fetchUserById = createAsyncThunk(
   'user/fetchUserById',
-  async (userData: idUser) => {
+  async (token: string) => {
     try {
-      const response = await API.post(fetchUserByIdEndpoint, userData.userId, {
-        headers: { Authorization: `Bearer ${userData.token}` },
+      const response = await API.get(fetchUserByIdEndpoint, {
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
-      console.log('fetched user response', response);
+      //console.log('fetched user response', response);
       return data;
     } catch (error) {
       throw new Error('didnt send event');
@@ -33,21 +35,63 @@ export const fetchUserById = createAsyncThunk(
   },
 );
 
-export const fetchAllUsers = createAsyncThunk(
-  'user/fetchAllUsers',
-  async (token: string) => {
+export const editUser = createAsyncThunk(
+  'user/editUser',
+  async (editData: EditUserData) => {
     try {
-      const response = await API.get(fetchAllUsersEndpoint, {
+      const token = localStorage.getItem('token');
+
+      const response = await API.post(editUserEndpoint, editData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
-      console.log('fetched users response', data);
+      console.log('edit user data', data);
+      //console.log('fetched user response', response);
       return data;
     } catch (error) {
       throw new Error('didnt send event');
     }
   },
 );
+
+export const editPassword = createAsyncThunk(
+  'user/editPassword',
+  async (editPasswordData: EditPasswordData) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await API.post(
+        editUserPasswordEndpoint,
+        editPasswordData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const data = response.data;
+      console.log('edit password data', data);
+      //console.log('fetched user response', response);
+      return data;
+    } catch (error) {
+      throw new Error('didnt send event');
+    }
+  },
+);
+
+// export const fetchAllUsers = createAsyncThunk(
+//   'user/fetchAllUsers',
+//   async (token: string) => {
+//     try {
+//       const response = await API.get(fetchAllUsersEndpoint, {
+//         headers: { Authorization: `Bearer ${token}` },
+//       });
+//       const data = response.data;
+//       console.log('fetched users response', data);
+//       return data;
+//     } catch (error) {
+//       throw new Error('didnt send event');
+//     }
+//   },
+// );
 
 // export const fetchByIdUser =
 //   (allUsers: User[], auth: Auth): AppThunk =>

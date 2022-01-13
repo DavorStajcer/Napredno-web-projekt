@@ -12,19 +12,15 @@ export const useEvent = () => {
   const token = localStorage.getItem('token');
   const allEvents = useSelector(selectAllEvents);
   const getAllEvents = () => {
-    // dispatch(getAllAvailableEvents());
-    dispatch(getAllFutureEvents(token as string));
+    dispatch(getAllFutureEvents());
   };
   const createEvent = (data: EventData) => {
     dispatch(postEvent(data));
     navigate(Routes.Home);
   };
 
-  const eventById = allEvents.find((event) => event._id === (id as string));
-
   return {
     getAllEvents,
-    eventById,
     createEvent,
   };
 };

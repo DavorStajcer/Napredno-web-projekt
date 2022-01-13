@@ -11,13 +11,12 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { fetchEventById, useEvent } from 'modules/event';
+import { fetchEventById } from 'modules/event';
 import { useDispatch } from 'react-redux';
 import { FetchEventByIdData } from 'modules/event/consts/fetchEventByIdData';
 import { useParams } from '@reach/router';
 
 export const EventItem: React.FC = () => {
-  const { eventById } = useEvent();
   const { id } = useParams();
   const dispatch = useDispatch();
   const eventData: FetchEventByIdData = {
@@ -46,24 +45,24 @@ export const EventItem: React.FC = () => {
             <CardMedia
               height="300"
               component="img"
-              image={eventById?.imageUrl}
+              image="asddsa"
               alt="random"
             />
 
             <CardContent sx={{ flexGrow: 1 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                {eventById?.name}
+                sdadsadsa
               </Typography>
               <Typography gutterBottom variant="h6">
-                {eventById?.date}
+                dsadsa
               </Typography>
               <Typography gutterBottom variant="h6">
-                {eventById?.location}
+                dsadsa
               </Typography>
-              <Typography gutterBottom>{eventById?.description}</Typography>
+              <Typography gutterBottom>dsasdadsa</Typography>
 
-              <Typography gutterBottom>{eventById?.maxAttendees}</Typography>
-              <Typography>{eventById?.count}</Typography>
+              <Typography gutterBottom>sdasda</Typography>
+              <Typography>dsasda</Typography>
             </CardContent>
             <CardActions>
               <Button size="small">Register to event</Button>

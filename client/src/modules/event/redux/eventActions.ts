@@ -39,8 +39,10 @@ export const postEvent = createAsyncThunk(
 
 export const getAllFutureEvents = createAsyncThunk(
   'event/getAllFutureEvents',
-  async (token: string) => {
+  async () => {
     try {
+      const token = localStorage.getItem('token') as string;
+      console.log('token sending', token);
       const response = await API.get(fetchAllFutureEvents, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -59,7 +61,7 @@ export const fetchEventById = createAsyncThunk(
     try {
       const response = await API.post(
         fetchEventByIdEndpoint,
-        eventData.eventId,
+        { eventId: eventData.eventId },
         {
           headers: { Authorization: `Bearer ${eventData.token}` },
         },

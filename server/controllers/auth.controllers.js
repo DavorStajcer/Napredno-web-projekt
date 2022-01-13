@@ -48,6 +48,8 @@ exports.postLoginUser = async (req, res, next) => {
 
 exports.postRefreshToken = async (req, res, next) => {
   const { refreshToken: requestToken } = req.body;
+  console.log("req", req.body);
+  console.log("refreshToken token server", req.body.refreshToken);
   if (requestToken == null) {
     const err = new Error("Refresh Token is required!");
     err.statusCode = 403;
