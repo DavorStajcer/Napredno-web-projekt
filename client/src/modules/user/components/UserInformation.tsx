@@ -13,13 +13,7 @@ import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuth } from 'modules/auth';
-import {
-  fetchUserById,
-  getById,
-  selectAllUsers,
-  selectUser,
-  useUser,
-} from 'modules/user';
+import { fetchUserById, selectUser } from 'modules/user';
 
 export const UserInformation: React.FC = () => {
   //const auth = useSelector(selectAuth);

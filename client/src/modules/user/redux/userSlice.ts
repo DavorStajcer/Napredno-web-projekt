@@ -1,13 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { AllUsers, User } from 'models/user';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from 'models/user';
 import { RootState } from 'modules/redux-store';
 import { fetchUserById } from 'modules/user';
 
-const initialState: AllUsers = {
-  allUsers: [],
+const initialState: User = {
   confirmation: '',
   message: '',
-  user: {
+  data: {
     admin: false,
     email: '',
     name: '',
@@ -24,60 +23,32 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    fetchByIdPending: (state) => {
-      state.loading = true;
-    },
-    fetchByIdFulfilled: (state, action) => {
-      state.user = action.payload;
-      state.loading = false;
-    },
-    fetchByIdRejected: (state, { payload }) => {
-      state.error = payload;
-      state.loading = false;
-    },
     editProfile: (state, action) => {
-      state.user = action.payload;
+      state.data = action.payload;
       state.loading = false;
-    },
-    getById: (state, action) => {
-      state.user = state.allUsers.find(
-        (user) => user._id === action.payload,
-      ) as User;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserById.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchUserById.fulfilled, (state, action) => {
-      state.loading = false;
-      state.user = action.payload;
-    });
+    builder.addCase(
+      fetchUserById.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.loading = false;
+        state.confirmation = action.payload.confirmation;
+        state.message = action.payload.message;
+        state.data = action.payload.data;
+      },
+    );
     builder.addCase(fetchUserById.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });
-    // builder.addCase(fetchAllUsers.pending, (state) => {
-    //   state.loading = true;
-    // });
-    // builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.allUsers = action.payload.data.users;
-    // });
-    // builder.addCase(fetchAllUsers.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.error.message;
-    // });
   },
 });
 
 export const userReducer = userSlice.reducer;
-export const selectAllUsers = (state: RootState) => state.user.allUsers;
-export const {
-  fetchByIdPending,
-  fetchByIdFulfilled,
-  fetchByIdRejected,
-  editProfile,
-  getById,
-} = userSlice.actions;
-export const selectUser = (state: RootState) => state.user.user;
+
+export const { editProfile } = userSlice.actions;
+export const selectUser = (state: RootState) => state.user.data;

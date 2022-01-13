@@ -4,16 +4,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API, Routes } from 'fixtures';
 import { Auth } from 'models/auth';
-import { User } from 'models/user';
+import { User, UserData } from 'models/user';
 import { AppDispatch, AppThunk } from 'modules/redux-store';
-import {
-  EditPasswordData,
-  EditUserData,
-  fetchByIdFulfilled,
-  fetchByIdPending,
-  fetchByIdRejected,
-  idUser,
-} from 'modules/user';
+import { EditPasswordData, EditUserData, idUser } from 'modules/user';
 
 const fetchUserByIdEndpoint = '/api/user/fetch';
 const fetchAllUsersEndpoint = '/api/user/fetch-all';
@@ -33,7 +26,12 @@ export const fetchUserById = createAsyncThunk(
       if (data.confirmation === 'success') {
         navigate(+1);
       }
-      return data;
+      const returnData: User = {
+        confirmation: data.confirmation as string,
+        message: data.message as string,
+        data: data.data.user as UserData,
+      };
+      return returnData;
     } catch (error) {
       throw new Error('didnt send event');
     }
@@ -84,8 +82,9 @@ export const editPassword = createAsyncThunk(
 
 // export const fetchAllUsers = createAsyncThunk(
 //   'user/fetchAllUsers',
-//   async (token: string) => {
+//   async () => {
 //     try {
+//       const token = localStorage.getItem('token');
 //       const response = await API.get(fetchAllUsersEndpoint, {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
@@ -97,16 +96,3 @@ export const editPassword = createAsyncThunk(
 //     }
 //   },
 // );
-
-// export const fetchByIdUser =
-//   (allUsers: User[], auth: Auth): AppThunk =>
-//   async (dispatch: AppDispatch) => {
-//     try {
-//       dispatch(fetchByIdPending());
-//       const user = allUsers.find((user) => user._id === auth.data.userId);
-//       console.log('user by id', user);
-//       dispatch(fetchByIdFulfilled(user));
-//     } catch (error) {
-//       dispatch(fetchByIdRejected(error));
-//     }
-//   };

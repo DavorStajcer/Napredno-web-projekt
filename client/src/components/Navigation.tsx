@@ -16,6 +16,8 @@ import { Routes } from 'fixtures';
 import { useState } from 'react';
 import { Link, navigate } from '@reach/router';
 import { useAuthentication } from 'modules/auth';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'modules/user';
 
 const events = [
   { eventName: 'Events', eventLink: Routes.Home },
@@ -25,6 +27,7 @@ const events = [
 ];
 
 export const Navigation: React.FC = () => {
+  const user = useSelector(selectUser);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { logoutUser } = useAuthentication();
@@ -53,15 +56,19 @@ export const Navigation: React.FC = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+          <Link
+            to={Routes.Home}
+            style={{ textDecoration: 'none', color: 'white' }}
           >
-            Event Planner
-          </Typography>
-
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            >
+              Event Planner
+            </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -103,14 +110,22 @@ export const Navigation: React.FC = () => {
               ))}
             </Menu>
           </Box>
+
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            Event Planner
+            <Link
+              to={Routes.Home}
+              style={{ textDecoration: 'none', color: 'white' }}
+            >
+              {' '}
+              Event Planner
+            </Link>
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {events.map(({ eventLink, eventName }) => (
               <Link
@@ -133,7 +148,7 @@ export const Navigation: React.FC = () => {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <ManageAccountsIcon />
                 <Typography sx={{ ml: 1 }} color="white">
-                  Marko Boras
+                  {user.name} {user.surname}
                 </Typography>
               </IconButton>
             </Tooltip>

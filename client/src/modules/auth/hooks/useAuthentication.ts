@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import {
   refreshToken,
@@ -9,7 +7,6 @@ import {
   logout,
   RegisterData,
   registerUser,
-  selectAuth,
 } from 'modules/auth';
 import { navigate } from '@reach/router';
 import { Routes } from 'fixtures';

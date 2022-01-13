@@ -1,4 +1,4 @@
-export interface User {
+export interface UserData {
   _id: string;
   email: string;
   name: string;
@@ -8,8 +8,8 @@ export interface User {
   admin: boolean;
 }
 
-export class User {
-  constructor({ _id, name, surname, password, email, admin, token }: User) {
+export class UserData {
+  constructor({ _id, name, surname, password, email, admin, token }: UserData) {
     this._id = _id;
     this.name = name;
     this.surname = surname;
@@ -20,11 +20,10 @@ export class User {
   }
 }
 
-export interface AllUsers {
-  user: User;
-  allUsers: User[];
+export interface User {
+  data: UserData;
   confirmation: string;
   message: string;
-  loading: boolean;
-  error: string | unknown;
+  loading?: boolean;
+  error?: string | unknown;
 }
