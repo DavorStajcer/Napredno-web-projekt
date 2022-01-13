@@ -22,7 +22,7 @@ export const authSlice = createSlice({
     registerPending: (state) => {
       state.loading = true;
     },
-    registerFulfilled: (state, action) => {
+    registerFulfilled: (state, action: PayloadAction<Auth>) => {
       state.confirmation = action.payload.confirmation;
       state.message = action.payload.message;
       state.loading = false;
@@ -34,7 +34,7 @@ export const authSlice = createSlice({
     loginPending: (state) => {
       state.loading = true;
     },
-    loginFulfilled: (state, action) => {
+    loginFulfilled: (state, action: PayloadAction<Auth>) => {
       state.confirmation = action.payload.confirmation;
       state.message = action.payload.message;
       state.data = action.payload.data;
@@ -47,8 +47,10 @@ export const authSlice = createSlice({
     refreshTokenPending: (state) => {
       state.loading = true;
     },
-    refreshTokenFulfilled: (state, action) => {
-      state.data = action.payload;
+    refreshTokenFulfilled: (state, action: PayloadAction<Auth>) => {
+      state.confirmation = action.payload.confirmation;
+      state.data.refreshToken = action.payload.data.refreshToken;
+      state.data.token = action.payload.data.accessToken as string;
       state.loading = false;
     },
     refreshTokenRejected: (state, { payload }) => {

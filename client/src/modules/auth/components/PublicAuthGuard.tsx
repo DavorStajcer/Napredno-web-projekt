@@ -6,10 +6,11 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 export const PublicAuthGuard: React.FC = ({ children }) => {
-  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+
   const authLoading = useSelector(selectAuthLoading);
   useEffect(() => {
-    if (userId !== null) {
+    if (token !== null) {
       navigate(Routes.Home);
     }
   }, []);

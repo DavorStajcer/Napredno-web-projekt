@@ -16,6 +16,8 @@ import { API } from 'fixtures';
 import { navigate } from '@reach/router';
 import { Routes } from 'fixtures';
 import { AppDispatch, AppThunk } from 'modules/redux-store';
+import { Auth } from 'models';
+import { fetchUserById } from 'modules/user';
 
 const registerUserEndpoint = '/api/auth/register';
 const loginEndpoint = '/api/auth/login';
@@ -28,7 +30,7 @@ export const registerUser =
       dispatch(registerPending());
       const response = await API.post(registerUserEndpoint, registerData);
       const data = response.data;
-      dispatch(registerFulfilled(data));
+      dispatch(registerFulfilled(data as Auth));
       navigate(Routes.Login);
     } catch (error) {
       console.log(error);
@@ -46,30 +48,24 @@ export const loginUser =
       localStorage.setItem('userId', data.data.userId);
       localStorage.setItem('refreshToken', data.data.refreshToken);
       localStorage.setItem('token', data.data.token);
-      dispatch(loginFulfilled(data));
+      dispatch(loginFulfilled(data as Auth));
+      dispatch(fetchUserById());
       navigate(Routes.Home);
     } catch (error) {
       dispatch(loginRejected(error));
     }
   };
 
-export const getToken =
-  (refreshToken: string): AppThunk =>
-  async (dispatch: AppDispatch) => {
-    try {
-      dispatch(refreshTokenPending());
-      const response = await API.post(refreshTokenEndpoint, refreshToken);
-      const data = response.data;
-      dispatch(refreshTokenFulfilled(data));
-    } catch (error) {
-      if (error) {
-        navigate(Routes.Login);
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
-      }
-      console.log(error);
-      dispatch(logout());
-      dispatch(refreshTokenRejected(error));
-    }
-  };
+export const refreshToken = (): AppThunk => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(refreshTokenPending());
+    const refreshToken = localStorage.getItem('refreshToken');
+    const response = await API.post(refreshTokenEndpoint, { refreshToken });
+    const data = response.data;
+    dispatch(refreshTokenFulfilled(data as Auth));
+  } catch (error) {
+    console.log(error);
+    dispatch(logout());
+    dispatch(refreshTokenRejected(error));
+  }
+};

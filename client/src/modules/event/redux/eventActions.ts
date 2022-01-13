@@ -30,7 +30,6 @@ export const postEvent = createAsyncThunk(
         headers: { Authorization: `Bearer ${event.token}` },
       });
       const data = response.data;
-      console.log('event response', data);
     } catch (error) {
       throw new Error('didnt send event');
     }
@@ -42,12 +41,12 @@ export const getAllFutureEvents = createAsyncThunk(
   async () => {
     try {
       const token = localStorage.getItem('token') as string;
-      console.log('token sending', token);
+
       const response = await API.get(fetchAllFutureEvents, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
-      console.log('event response', data);
+
       return data;
     } catch (error) {
       throw new Error('didnt send event');
@@ -67,7 +66,7 @@ export const fetchEventById = createAsyncThunk(
         },
       );
       const data = response.data;
-      console.log('event by id response', data);
+
       return data;
     } catch (error) {
       throw new Error('didnt send event');

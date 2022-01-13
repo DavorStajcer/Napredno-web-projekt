@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { navigate, useLocation } from '@reach/router';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API } from 'fixtures';
+import { API, Routes } from 'fixtures';
 import { Auth } from 'models/auth';
 import { User } from 'models/user';
 import { AppDispatch, AppThunk } from 'modules/redux-store';
@@ -21,13 +22,17 @@ const editUserPasswordEndpoint = '/api/user/edit-password';
 
 export const fetchUserById = createAsyncThunk(
   'user/fetchUserById',
-  async (token: string) => {
+  async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await API.get(fetchUserByIdEndpoint, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
-      //console.log('fetched user response', response);
+
+      if (data.confirmation === 'success') {
+        navigate(+1);
+      }
       return data;
     } catch (error) {
       throw new Error('didnt send event');
