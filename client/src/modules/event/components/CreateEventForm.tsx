@@ -5,13 +5,11 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import { useState } from 'react';
 import { EventData, useEvent } from 'modules/event';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { selectAuth } from 'modules/auth';
 
 export const CreateEventForm: React.FC = () => {
   const { register, handleSubmit } = useForm<EventData>();
   const { createEvent } = useEvent();
-  const auth = useSelector(selectAuth);
+
   const [dateValue, setDateValue] = useState<Date | null>(new Date());
   const onSubmit = handleSubmit((data: EventData) => {
     if (dateValue === null) {
@@ -25,9 +23,7 @@ export const CreateEventForm: React.FC = () => {
       imageUrl: data.imageUrl,
       location: data.location,
       maxAttendees: data.maxAttendees,
-      token: auth.data.token,
     };
-    console.log('event data', eventData);
     createEvent(eventData);
   });
 

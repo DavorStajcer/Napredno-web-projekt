@@ -4,6 +4,5 @@ export interface EventData {
   imageUrl: string;
   location: string;
   date: Date;
-  token?: string;
   maxAttendees: number;
 }

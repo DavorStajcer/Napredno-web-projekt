@@ -11,21 +11,17 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { fetchEventById } from 'modules/event';
-import { useDispatch } from 'react-redux';
-import { FetchEventByIdData } from 'modules/event/consts/fetchEventByIdData';
+import { fetchEventById, selectEvent } from 'modules/event';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { useParams } from '@reach/router';
 
 export const EventItem: React.FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const eventData: FetchEventByIdData = {
-    token: localStorage.getItem('token') as string,
-    eventId: id as string,
-  };
-  console.log('event data by id', eventData);
+  const event = useSelector(selectEvent);
   useEffect(() => {
-    dispatch(fetchEventById(eventData));
+    dispatch(fetchEventById(id as string));
   }, []);
   return (
     <React.Fragment>
@@ -45,24 +41,24 @@ export const EventItem: React.FC = () => {
             <CardMedia
               height="300"
               component="img"
-              image="asddsa"
+              image={event?.imageUrl}
               alt="random"
             />
 
             <CardContent sx={{ flexGrow: 1 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                sdadsadsa
+                {event?.name}
               </Typography>
               <Typography gutterBottom variant="h6">
-                dsadsa
+                {event?.location}
               </Typography>
               <Typography gutterBottom variant="h6">
-                dsadsa
+                {event?.date}
               </Typography>
-              <Typography gutterBottom>dsasdadsa</Typography>
+              <Typography gutterBottom>{event?.description}</Typography>
 
-              <Typography gutterBottom>sdasda</Typography>
-              <Typography>dsasda</Typography>
+              <Typography gutterBottom>{event?.maxAttendees}</Typography>
+              <Typography>{event?.count}</Typography>
             </CardContent>
             <CardActions>
               <Button size="small">Register to event</Button>

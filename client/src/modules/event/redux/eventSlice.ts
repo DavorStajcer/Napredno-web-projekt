@@ -1,12 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AllEvents, Event } from 'models';
-import { getAllFutureEvents, postEvent } from 'modules/event';
+import { fetchEventById, getAllFutureEvents, postEvent } from 'modules/event';
 import { RootState } from 'modules/redux-store';
 
 const initialState: AllEvents = {
   allEvents: [],
   futureEvents: [],
   passedEvents: [],
+  confirmation: '',
+  event: {
+    _id: '',
+    adminId: '',
+    count: 0,
+    date: new Date(),
+    description: '',
+    imageUrl: '',
+    location: '',
+    maxAttendees: 0,
+    name: '',
+    userEmail: '',
+    userName: '',
+    userSurname: '',
+  },
+  message: '',
   error: '',
   loading: false,
 };
@@ -36,10 +52,26 @@ export const eventSlice = createSlice({
     builder.addCase(postEvent.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(postEvent.fulfilled, (state) => {
+    builder.addCase(postEvent.fulfilled, (state, action) => {
       state.loading = false;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
     });
     builder.addCase(postEvent.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(fetchEventById.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      fetchEventById.fulfilled,
+      (state, action: PayloadAction<Event>) => {
+        state.loading = false;
+        state.event = action.payload;
+      },
+    );
+    builder.addCase(fetchEventById.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });
@@ -68,3 +100,4 @@ export const selectAllEvents = (state: RootState) => state.events.allEvents;
 export const selectPassedEvents = (state: RootState) =>
   state.events.passedEvents;
 export const selectEventsLoading = (state: RootState) => state.events.loading;
+export const selectEvent = (state: RootState) => state.events.event;

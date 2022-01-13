@@ -1,18 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AppDispatch, AppThunk } from 'modules/redux-store';
-import {
-  fetchAllEventsPending,
-  fetchAllEventsFulfilled,
-  fetchAllEventsRejected,
-  EventData,
-  EditEventData,
-} from 'modules/event';
 
-import { Event } from 'models';
+import { EventData, EditEventData } from 'modules/event';
+
 import { API } from 'fixtures';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FetchEventByIdData } from 'modules/event/consts/fetchEventByIdData';
+
 import { DeleteEventData } from 'modules/event/consts/deleteEventData';
+import { Event } from 'models';
 
 const allEventsEndPoint = '/fetch-all';
 const fetchEventByIdEndpoint = '/api/event/fetch-one';
@@ -22,14 +16,36 @@ const editEventEndpoint = '/api/event/edit';
 const deleteEventEndpoint = '/api/event/delete';
 const fetchUsersEventsEndpoint = '/api/event/fetch-users';
 
+export const fetchEventById = createAsyncThunk(
+  'event/fetchEventById',
+  async (eventId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await API.post(
+        fetchEventByIdEndpoint,
+        { eventId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const data = response.data.data.event;
+      return data as Event;
+    } catch (error) {
+      throw new Error('didnt send event');
+    }
+  },
+);
+
 export const postEvent = createAsyncThunk(
   'event/postEvent',
   async (event: EventData) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await API.post(createEventEndpoint, event, {
-        headers: { Authorization: `Bearer ${event.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
+      return data;
     } catch (error) {
       throw new Error('didnt send event');
     }
@@ -45,26 +61,6 @@ export const getAllFutureEvents = createAsyncThunk(
       const response = await API.get(fetchAllFutureEvents, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const data = response.data;
-
-      return data;
-    } catch (error) {
-      throw new Error('didnt send event');
-    }
-  },
-);
-
-export const fetchEventById = createAsyncThunk(
-  'event/getAllFutureEvents',
-  async (eventData: FetchEventByIdData) => {
-    try {
-      const response = await API.post(
-        fetchEventByIdEndpoint,
-        { eventId: eventData.eventId },
-        {
-          headers: { Authorization: `Bearer ${eventData.token}` },
-        },
-      );
       const data = response.data;
 
       return data;

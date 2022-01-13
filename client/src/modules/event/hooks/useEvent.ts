@@ -8,9 +8,6 @@ import { Routes } from 'fixtures';
 
 export const useEvent = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const token = localStorage.getItem('token');
-  const allEvents = useSelector(selectAllEvents);
   const getAllEvents = () => {
     dispatch(getAllFutureEvents());
   };
