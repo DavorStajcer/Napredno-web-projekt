@@ -42,7 +42,7 @@ exports.deleteReservation = async (userId, reservationId) => {
     }
 
     if (reservation.userId !== userId) {
-      const error = new Error("Reservation not found");
+      const error = new Error("User has no permission to delete");
       error.statusCode = 403;
       throw error;
     }
@@ -56,16 +56,36 @@ exports.deleteReservation = async (userId, reservationId) => {
 
 exports.fetchUserReservations = async (userId) => {
   try {
-    let reservations = await Reservation.find({ userId: userId }).lean().select("-__v");
+    let reservations = await Reservation.find({ userId: userId })
+      .lean()
+      .select("-__v");
+
+    if (!reservations) {
+      const error = new Error("User reservations not found");
+      error.statusCode = 404;
+      throw error;
+    }
 
     reservations = await Promise.all(
       reservations.map(async (reservation) => {
         const eventData = await Event.findById(reservation.eventId)
           .lean()
           .select("-_id -__v");
+
+        if (!eventData) {
+          const error = new Error("Event not found");
+          error.statusCode = 404;
+          throw error;
+        }
         const adminData = await User.findById(eventData.adminId)
           .lean()
           .select("-_id -password -admin -__v");
+
+        if (!adminData) {
+          const error = new Error("User not found");
+          error.statusCode = 404;
+          throw error;
+        }
         return {
           ...reservation,
           eventData: { ...eventData },

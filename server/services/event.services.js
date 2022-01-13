@@ -41,7 +41,7 @@ exports.editEvent = async (
     const event = await Event.findById(eventId);
 
     if (!event) {
-      const error = new Error("Event not found in database");
+      const error = new Error("Event not found");
       error.code = 404;
       throw error;
     }
@@ -73,7 +73,7 @@ exports.deleteEvent = async (eventId, adminId) => {
     const event = await Event.findById(eventId);
 
     if (!event) {
-      const error = new Error("Event not found in database");
+      const error = new Error("Event not found");
       error.code = 404;
       throw error;
     }
@@ -97,13 +97,13 @@ exports.fetchEventById = async (eventId) => {
   try {
     let event = await Event.findById(eventId).lean().select("-__v");
     if (!event) {
-      const error = new Error("Event not found in database");
+      const error = new Error("Event not found");
       error.code = 404;
       throw error;
     }
     const user = await User.findById(event.adminId).lean().select("-password");
     if (!user) {
-      const error = new Error("User not found in database");
+      const error = new Error("User not found");
       error.code = 404;
       throw error;
     }
@@ -125,11 +125,23 @@ exports.fetchAllFutureEvents = async () => {
       .lean()
       .select("-__v");
 
+    if (!events) {
+      const error = new Error('Events not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
     events = await Promise.all(
       events.map(async (event) => {
         const user = await User.findById(event.adminId.toString())
           .lean()
           .select("-password");
+
+        if (!user) {
+          const error = new Error('User not found');
+          error.statusCode = 404;
+          throw error;
+        }
 
         return {
           ...event,
@@ -147,7 +159,15 @@ exports.fetchAllFutureEvents = async () => {
 
 exports.fetchUserEvents = async (adminId) => {
   try {
-    return await Event.find({ adminId: adminId });
+    const events = await Event.find({ adminId: adminId });
+
+    if (!events) {
+      const error = new Error('User events not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return events;
   } catch (error) {
     throw error;
   }
