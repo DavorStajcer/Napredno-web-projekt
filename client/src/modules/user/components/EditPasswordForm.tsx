@@ -1,13 +1,11 @@
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { navigate } from '@reach/router';
-import { Routes } from 'fixtures';
-import { editPassword, EditPasswordData } from 'modules/user';
+import { EditPasswordData } from 'modules/user';
+import { useUser } from 'modules/user/hooks/useUser';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 export const EditPasswordForm: React.FC = () => {
   const { register, handleSubmit } = useForm<EditPasswordData>();
-  const dispatch = useDispatch();
+  const { editUserPassword } = useUser();
   const onSubmit = handleSubmit((data: EditPasswordData) => {
     if (data.newPassword !== data.confirmNewPassword) {
       alert('Confirm new password and new password are not same');
@@ -17,8 +15,7 @@ export const EditPasswordForm: React.FC = () => {
       currentPassword: data.currentPassword,
       newPassword: data.newPassword,
     };
-    dispatch(editPassword(editData));
-    navigate(Routes.Profile);
+    editUserPassword(editData);
   });
   return (
     <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>

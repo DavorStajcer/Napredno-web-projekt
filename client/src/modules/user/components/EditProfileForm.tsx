@@ -1,13 +1,15 @@
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { Link, navigate } from '@reach/router';
+import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
-import { editUser, EditUserData, selectUser } from 'modules/user';
+import { EditUserData, selectUser } from 'modules/user';
+import { useUser } from 'modules/user/hooks/useUser';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export const EditProfileForm: React.FC = () => {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const { editUserData } = useUser();
+
   const { register, handleSubmit } = useForm<EditUserData>({
     defaultValues: user,
   });
@@ -19,8 +21,7 @@ export const EditProfileForm: React.FC = () => {
       surname: data.surname,
       password: data.password,
     };
-    dispatch(editUser(editData));
-    navigate(Routes.Profile);
+    editUserData(editData);
   });
   return (
     <Container maxWidth="md" component="main" sx={{ pt: 5, pb: 5 }}>

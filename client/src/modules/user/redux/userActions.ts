@@ -5,7 +5,6 @@ import { User, UserData } from 'models/user';
 import { EditPasswordData, EditUserData } from 'modules/user';
 
 const fetchUserByIdEndpoint = '/api/user/fetch';
-// const fetchAllUsersEndpoint = '/api/user/fetch-all';
 const editUserEndpoint = '/api/user/edit';
 const editUserPasswordEndpoint = '/api/user/edit-password';
 
@@ -75,20 +74,3 @@ export const editPassword = createAsyncThunk(
     }
   },
 );
-
-// export const fetchAllUsers = createAsyncThunk(
-//   'user/fetchAllUsers',
-//   async () => {
-//     try {
-//       const token = localStorage.getItem('token');
-//       const response = await API.get(fetchAllUsersEndpoint, {
-//         headers: { Authorization: `Bearer ${token}` },
-//       });
-//       const data = response.data;
-//       console.log('fetched users response', data);
-//       return data;
-//     } catch (error) {
-//       throw new Error('didnt send event');
-//     }
-//   },
-// );

@@ -22,12 +22,7 @@ const initialState: User = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    editProfile: (state, action) => {
-      state.data = action.payload;
-      state.loading = false;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUserById.pending, (state) => {
       state.loading = true;
@@ -78,5 +73,5 @@ export const userSlice = createSlice({
 
 export const userReducer = userSlice.reducer;
 
-export const { editProfile } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user.data;
+export const selectUserLoading = (state: RootState) => state.user.loading;
