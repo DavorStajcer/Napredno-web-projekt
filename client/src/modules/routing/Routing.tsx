@@ -3,7 +3,6 @@ import {
   Login,
   NotFound,
   Register,
-  Events,
   Profile,
   EditProfile,
   EditPassword,
@@ -11,7 +10,9 @@ import {
   MyEvents,
   EditEvent,
   CreateEvent,
+  Events,
 } from 'views';
+
 import { Routes } from 'fixtures';
 
 const RouterPage = (
