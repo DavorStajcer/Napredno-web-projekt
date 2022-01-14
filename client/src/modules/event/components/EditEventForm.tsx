@@ -31,7 +31,7 @@ export const EditEventForm: React.FC = () => {
   const myEvents = useSelector((state: RootState) => state.events.myEvents);
   const event = myEvents.find((event) => event._id === (params.id as string));
   console.log('editting event', event);
-  const [dateValue, setDateValue] = useState<Date | null>(new Date());
+  const [dateValue, setDateValue] = useState<Date | null>(event?.date as Date);
   const { register, handleSubmit } = useForm<EditEventData>({
     defaultValues: event,
   });

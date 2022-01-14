@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Card,
@@ -8,23 +7,13 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { Link } from '@reach/router';
 import { Event } from 'models';
-import { fetchEventById, selectEvent } from 'modules/event';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {
   event: Event;
 }
 
 export const EventItem: React.FC<Props> = ({ event }) => {
-  // const eventData = useSelector(selectEvent);
-  const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchEventById(event._id));
-  // }, []);
-
   return (
     <Grid item xs={12} sm={6}>
       <Card

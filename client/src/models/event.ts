@@ -44,13 +44,14 @@ export class Event {
 }
 
 export interface AllEvents {
-  allEvents: Event[];
   event: Event;
   confirmation?: string;
   message?: string;
-  futureEvents?: Event[];
-  passedEvents?: Event[];
+  availableEvents: Event[];
   myEvents: Event[];
+  futureEvents: Event[];
+  passedEvents: Event[];
+
   loading?: boolean;
   error?: string | unknown;
 }

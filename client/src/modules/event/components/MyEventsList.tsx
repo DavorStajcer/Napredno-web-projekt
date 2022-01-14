@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   CssBaseline,
   Grid,
@@ -8,25 +7,21 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import {
-  EventPreview,
-  fetchEventById,
-  fetchUserEvents,
-  PassedEventPreview,
-  selectAllEvents,
   selectPassedEvents,
   useEvent,
+  selectFutureEvents,
 } from 'modules/event';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FutureEvent } from 'modules/event/components/FutureEvent';
-import { Event } from 'models';
 
-const cards: any[] = [1, 2, 3];
-interface Props {
-  events: Event[];
-}
-
-export const MyEventsList: React.FC<Props> = ({ events }) => {
+export const MyEventsList: React.FC = () => {
+  const { getMyEvents } = useEvent();
+  useEffect(() => {
+    getMyEvents();
+  }, []);
   const passedEvents = useSelector(selectPassedEvents);
+  const futureEvents = useSelector(selectFutureEvents);
+
   return (
     <React.Fragment>
       <GlobalStyles
@@ -46,7 +41,7 @@ export const MyEventsList: React.FC<Props> = ({ events }) => {
 
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
-          {(passedEvents as Event[]).map((event) => (
+          {passedEvents.map((event) => (
             <FutureEvent event={event} key={event._id} />
           ))}
         </Grid>
@@ -64,7 +59,7 @@ export const MyEventsList: React.FC<Props> = ({ events }) => {
       </Container>
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
-          {events.map((event) => (
+          {futureEvents.map((event) => (
             <FutureEvent event={event} key={event._id} />
           ))}
         </Grid>

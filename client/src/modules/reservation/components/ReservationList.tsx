@@ -8,14 +8,13 @@ import {
   Button,
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { EventPreview, selectAllEvents, useEvent } from 'modules/event';
+import { EventPreview, selectMyEvents, useEvent } from 'modules/event';
 import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
 import { useSelector } from 'react-redux';
 
 export const ReservationList: React.FC = () => {
-  const { getAllEvents } = useEvent();
-  const allEvents = useSelector(selectAllEvents);
+  const allEvents = useSelector(selectMyEvents);
   // useEffect(() => {
   //   getAllEvents();
   // }, []);

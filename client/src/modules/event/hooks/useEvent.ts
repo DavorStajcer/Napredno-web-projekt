@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { navigate, useParams } from '@reach/router';
-import { EventData, selectAllEvents } from 'modules/event';
-import { getAllFutureEvents } from 'modules/event/redux/eventActions';
+import { navigate } from '@reach/router';
+import { EventData, selectMyEvents } from 'modules/event';
+import {
+  fetchUserEvents,
+  getAllFutureEvents,
+} from 'modules/event/redux/eventActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEvent } from 'modules/event';
 import { Routes } from 'fixtures';
@@ -9,9 +11,12 @@ import { Event } from 'models';
 
 export const useEvent = () => {
   const dispatch = useDispatch();
-  const allEvents = useSelector(selectAllEvents);
-  const getAllEvents = () => {
+  const allEvents = useSelector(selectMyEvents);
+  const getAllAvailableEvents = () => {
     dispatch(getAllFutureEvents());
+  };
+  const getMyEvents = () => {
+    dispatch(fetchUserEvents());
   };
   const createEvent = (data: EventData) => {
     dispatch(postEvent(data));
@@ -19,13 +24,13 @@ export const useEvent = () => {
   };
   const getEventById = (eventId: string) => {
     const response = allEvents.find((event) => event._id === eventId) as Event;
-
     return response;
   };
 
   return {
-    getAllEvents,
+    getAllAvailableEvents,
     createEvent,
     getEventById,
+    getMyEvents,
   };
 };
