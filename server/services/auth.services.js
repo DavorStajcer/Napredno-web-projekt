@@ -23,10 +23,8 @@ exports.registerUser = async (email, name, surname, password) => {
       password: hashedPassword,
       admin: false,
     });
-    console.log("user in auth services", user);
     await user.save();
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

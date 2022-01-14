@@ -12,7 +12,13 @@ exports.fetchUserById = async (userId) => {
 
 exports.fetchAllUsers = async () => {
   try {
-    return await User.find().select("-password");
+    const users = await User.find().select("-password");
+    if (!users) {
+      const error = new Error("Users not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    return users;
   } catch (error) {
     throw error;
   }
@@ -21,6 +27,12 @@ exports.fetchAllUsers = async () => {
 exports.editUserInfo = async (userId, name, surname, email, password) => {
   try {
     const user = await User.findById(userId);
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
 
     if (!(await bcrypt.compare(password, user.password))) {
       const error = new Error("Invalid password");
@@ -46,6 +58,12 @@ exports.editUserPassword = async (userId, currentPassword, newPassword) => {
   try {
     const user = await User.findById(userId);
 
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
     if (!(await bcrypt.compare(currentPassword, user.password))) {
       const error = new Error("Invalid password");
       error.statusCode = 401;
@@ -64,7 +82,7 @@ exports.findUserById = async (userId) => {
   const user = await User.findById(userId).select("-password");
 
   if (!user) {
-    const error = new Error("User not found with given id");
+    const error = new Error("User not found");
     error.statusCode = 404;
     throw error;
   }
