@@ -8,7 +8,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { getPassedEvents, selectPassedEvents } from 'modules/event';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 

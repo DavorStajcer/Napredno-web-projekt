@@ -26,11 +26,10 @@ export const FutureEvent: React.FC<Props> = ({ event }) => {
   const handleDelete = () => {
     const deleteEventData: DeleteEventData = {
       eventId: event._id as string,
-      token: localStorage.getItem('token') as string,
     };
     console.log('event data', deleteEventData);
     dispatch(deleteEvent(deleteEventData));
-    navigate(Routes.MyEvents);
+    navigate(Routes.Home);
   };
   return (
     <Grid item key={event._id} xs={12} sm={6}>

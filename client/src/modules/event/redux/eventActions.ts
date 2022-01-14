@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { EventData, EditEventData } from 'modules/event';
-
 import { API } from 'fixtures';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
 import { DeleteEventData } from 'modules/event/consts/deleteEventData';
-import { AllEvents, Event } from 'models';
+import { Event } from 'models';
 
-const allEventsEndPoint = '/fetch-all';
 const fetchEventByIdEndpoint = '/api/event/fetch-one';
 const fetchAllFutureEvents = '/api/event/fetch-all';
 const createEventEndpoint = '/api/event/create';
@@ -96,11 +91,16 @@ export const deleteEvent = createAsyncThunk(
   'event/deleteEvent',
   async (eventData: DeleteEventData) => {
     try {
-      const response = await API.post(editEventEndpoint, eventData.eventId, {
-        headers: { Authorization: `Bearer ${eventData.token}` },
-      });
+      const token = localStorage.getItem('token') as string;
+      const response = await API.post(
+        deleteEventEndpoint,
+        { eventId: eventData.eventId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       const data = response.data;
-      console.log('delete event by id response', data);
+
       return data;
     } catch (error) {
       throw new Error('didnt send event');
@@ -109,41 +109,28 @@ export const deleteEvent = createAsyncThunk(
 );
 export const fetchUserEvents = createAsyncThunk(
   'event/fetchUserEvents',
-  async (token: string) => {
+  async () => {
     try {
-      const response = await API.get(
-        fetchUsersEventsEndpoint,
+      const token = localStorage.getItem('token') as string;
+      console.log('sending token', token);
 
+      const response = await API.post(
+        fetchUsersEventsEndpoint,
+        {},
         {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
       const data = response.data;
-      console.log('fetch users events response', data);
-      return data;
+      const returnData = {
+        confirmation: data.confirmation as string,
+        message: data.message as string,
+        allEvents: data.data.events as Event[],
+      };
+
+      return returnData;
     } catch (error) {
       throw new Error('didnt send event');
     }
   },
 );
-/*
-
-API.delete(`users/${this.state.id}`);
-const config = {
-    headers: { Authorization: `Bearer ${token}` }
-};
-
-const bodyParameters = {
-   key: "value"
-};
-
-Axios.post( 
-  'http://localhost:8000/api/v1/get_token_payloads',
-  bodyParameters,
-  config
-).then(console.log).catch(console.log);
-`https://event-planner-5fa62-default-rtdb.europe-west1.firebasedatabase.app/
-const fetchEventByIdEndpoint = '/api/event/f${userId}.json?auth=` +token';
-
-
-*/

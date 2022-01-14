@@ -24,7 +24,7 @@ export const EventItem: React.FC<Props> = ({ event }) => {
   // useEffect(() => {
   //   dispatch(fetchEventById(event._id));
   // }, []);
-  console.log('Event', event);
+
   return (
     <Grid item xs={12} sm={6}>
       <Card

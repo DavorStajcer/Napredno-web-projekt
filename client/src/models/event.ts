@@ -49,7 +49,8 @@ export interface AllEvents {
   confirmation?: string;
   message?: string;
   futureEvents?: Event[];
-  passedEvents: Event[];
+  passedEvents?: Event[];
+  myEvents: Event[];
   loading?: boolean;
   error?: string | unknown;
 }

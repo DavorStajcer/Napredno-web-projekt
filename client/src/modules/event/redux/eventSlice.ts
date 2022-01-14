@@ -3,6 +3,7 @@ import { AllEvents, Event } from 'models';
 import {
   editEventById,
   fetchEventById,
+  fetchUserEvents,
   getAllFutureEvents,
   postEvent,
 } from 'modules/event';
@@ -11,6 +12,7 @@ import { RootState } from 'modules/redux-store';
 const initialState: AllEvents = {
   allEvents: [],
   futureEvents: [],
+  myEvents: [],
   passedEvents: [],
   confirmation: '',
   event: {
@@ -36,20 +38,9 @@ export const eventSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
-    fetchAllEventsPending: (state) => {
-      state.loading = true;
-    },
-    fetchAllEventsFulfilled: (state, action: PayloadAction<Event[]>) => {
-      state.allEvents = action.payload;
-      state.loading = false;
-    },
-    fetchAllEventsRejected: (state, { payload }) => {
-      state.error = payload;
-      state.loading = false;
-    },
     getPassedEvents: (state) => {
-      state.passedEvents = state.allEvents.filter(
-        (event) => new Date(event.date).getTime() < new Date().getTime(),
+      state.passedEvents = state.myEvents.filter(
+        (event) => new Date(event.date) > new Date(),
       );
     },
   },
@@ -105,17 +96,26 @@ export const eventSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     });
+    builder.addCase(fetchUserEvents.pending, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(fetchUserEvents.fulfilled, (state, action) => {
+      state.loading = false;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
+      state.myEvents = action.payload.allEvents;
+    });
+    builder.addCase(fetchUserEvents.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
   },
 });
 
 export const eventReducer = eventSlice.reducer;
-export const {
-  fetchAllEventsPending,
-  fetchAllEventsFulfilled,
-  fetchAllEventsRejected,
-  getPassedEvents,
-} = eventSlice.actions;
+export const { getPassedEvents } = eventSlice.actions;
 export const selectAllEvents = (state: RootState) => state.events.allEvents;
+export const selectMyEvents = (state: RootState) => state.events.myEvents;
 export const selectPassedEvents = (state: RootState) =>
   state.events.passedEvents;
 export const selectEventsLoading = (state: RootState) => state.events.loading;

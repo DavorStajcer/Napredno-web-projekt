@@ -22,11 +22,15 @@ import { RootState } from 'modules';
 export const EditEventForm: React.FC = () => {
   const dispatch = useDispatch();
   const params = useParams();
+  const fetchedEvent = useSelector(selectEvent);
   useEffect(() => {
     dispatch(fetchEventById(params.id as string));
+    console.log('fetched event', fetchedEvent);
   }, []);
-  const allEvents = useSelector((state: RootState) => state.events.allEvents);
-  const event = allEvents.find((event) => event._id === (params.id as string));
+
+  const myEvents = useSelector((state: RootState) => state.events.myEvents);
+  const event = myEvents.find((event) => event._id === (params.id as string));
+  console.log('editting event', event);
   const [dateValue, setDateValue] = useState<Date | null>(new Date());
   const { register, handleSubmit } = useForm<EditEventData>({
     defaultValues: event,
@@ -44,7 +48,7 @@ export const EditEventForm: React.FC = () => {
       date: dateValue,
       eventId: event?._id as string,
     };
-
+    console.log('edit data form', editData);
     dispatch(editEventById(editData));
     navigate(Routes.MyEvents);
   });

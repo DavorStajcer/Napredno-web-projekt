@@ -11,7 +11,6 @@ import {
   EventPreview,
   fetchEventById,
   fetchUserEvents,
-  getPassedEvents,
   PassedEventPreview,
   selectAllEvents,
   selectPassedEvents,
@@ -28,7 +27,6 @@ interface Props {
 
 export const MyEventsList: React.FC<Props> = ({ events }) => {
   const passedEvents = useSelector(selectPassedEvents);
-
   return (
     <React.Fragment>
       <GlobalStyles
@@ -45,26 +43,14 @@ export const MyEventsList: React.FC<Props> = ({ events }) => {
           Passed events
         </Typography>
       </Container>
-      {passedEvents.length !== 0 ? (
-        <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <PassedEventPreview card={card} key={card} />
-            ))}
-          </Grid>
-        </Container>
-      ) : (
-        <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8 }}>
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            component="p"
-          >
-            You do not have any passed event yet
-          </Typography>
-        </Container>
-      )}
+
+      <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
+        <Grid container spacing={4}>
+          {(passedEvents as Event[]).map((event) => (
+            <FutureEvent event={event} key={event._id} />
+          ))}
+        </Grid>
+      </Container>
 
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8 }}>
         <Typography
