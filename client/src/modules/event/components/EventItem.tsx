@@ -8,12 +8,14 @@ import {
   Typography,
 } from '@mui/material';
 import { Event } from 'models';
+import { useEvent } from 'modules/event';
 
 interface Props {
   event: Event;
 }
 
 export const EventItem: React.FC<Props> = ({ event }) => {
+  const { formatDate } = useEvent();
   return (
     <Grid item xs={12} sm={6}>
       <Card
@@ -38,7 +40,7 @@ export const EventItem: React.FC<Props> = ({ event }) => {
             {event?.location}
           </Typography>
           <Typography gutterBottom variant="h6">
-            {event?.date}
+            {formatDate(event.date)}
           </Typography>
           <Typography gutterBottom>{event?.description}</Typography>
 

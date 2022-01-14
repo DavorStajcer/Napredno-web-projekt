@@ -31,6 +31,11 @@ export const useEvent = () => {
     const response = allEvents.find((event) => event._id === eventId) as Event;
     return response;
   };
+  const formatDate = (date: Date) => {
+    const today = new Date(date);
+    const formattedDate = today.toLocaleString('en-US');
+    return formattedDate;
+  };
 
   return {
     getAllAvailableEvents,
@@ -38,5 +43,6 @@ export const useEvent = () => {
     getEventById,
     getMyEvents,
     editEvent,
+    formatDate,
   };
 };
