@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Card,
@@ -10,9 +11,10 @@ import {
 import { Link, navigate } from '@reach/router';
 import { Routes } from 'fixtures';
 import { Event } from 'models';
-import { deleteEvent } from 'modules/event';
+import { deleteEvent, fetchEventById, selectEvent } from 'modules/event';
 import { DeleteEventData } from 'modules/event/consts/deleteEventData';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {
   event: Event;
@@ -20,6 +22,7 @@ interface Props {
 
 export const FutureEvent: React.FC<Props> = ({ event }) => {
   const dispatch = useDispatch();
+
   const handleDelete = () => {
     const deleteEventData: DeleteEventData = {
       eventId: event._id as string,
@@ -38,14 +41,12 @@ export const FutureEvent: React.FC<Props> = ({ event }) => {
           flexDirection: 'column',
         }}
       >
-        <Link to={`/event/${event._id}`}>
-          <CardMedia
-            height="300"
-            component="img"
-            image={event.imageUrl}
-            alt="random"
-          />
-        </Link>
+        <CardMedia
+          height="300"
+          component="img"
+          image={event.imageUrl}
+          alt="random"
+        />
 
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="h2">

@@ -9,6 +9,7 @@ import {
 import React, { useEffect } from 'react';
 import {
   EventPreview,
+  fetchEventById,
   fetchUserEvents,
   getPassedEvents,
   PassedEventPreview,
@@ -18,22 +19,16 @@ import {
 } from 'modules/event';
 import { useDispatch, useSelector } from 'react-redux';
 import { FutureEvent } from 'modules/event/components/FutureEvent';
+import { Event } from 'models';
 
 const cards: any[] = [1, 2, 3];
+interface Props {
+  events: Event[];
+}
 
-export const MyEventsList: React.FC = () => {
-  const dispatch = useDispatch();
+export const MyEventsList: React.FC<Props> = ({ events }) => {
   const passedEvents = useSelector(selectPassedEvents);
-  const token = localStorage.getItem('token');
-  const { getAllEvents } = useEvent();
-  const allEvents = useSelector(selectAllEvents);
-  useEffect(() => {
-    getAllEvents();
 
-    // dispatch(getPassedEvents());
-    // console.log('Sending token to fetch user events', token);
-    // dispatch(fetchUserEvents(token as string));
-  }, []);
   return (
     <React.Fragment>
       <GlobalStyles
@@ -83,7 +78,7 @@ export const MyEventsList: React.FC = () => {
       </Container>
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
-          {allEvents.map((event) => (
+          {events.map((event) => (
             <FutureEvent event={event} key={event._id} />
           ))}
         </Grid>

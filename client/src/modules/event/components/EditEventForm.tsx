@@ -4,25 +4,48 @@ import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-import { useState } from 'react';
-import { editEventById, EditEventData, useEvent } from 'modules/event';
+import { useEffect, useState } from 'react';
+import {
+  editEventById,
+  EditEventData,
+  fetchEventById,
+  getAllFutureEvents,
+  selectEvent,
+  useEvent,
+} from 'modules/event';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { navigate } from '@reach/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { navigate, useParams } from '@reach/router';
 import { Routes } from 'fixtures';
+import { RootState } from 'modules';
 
 export const EditEventForm: React.FC = () => {
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm<EditEventData>();
-
-  const [dateValue, setDateValue] = useState<Date | null>();
-
+  const params = useParams();
+  useEffect(() => {
+    dispatch(fetchEventById(params.id as string));
+  }, []);
+  const allEvents = useSelector((state: RootState) => state.events.allEvents);
+  const event = allEvents.find((event) => event._id === (params.id as string));
+  const [dateValue, setDateValue] = useState<Date | null>(new Date());
+  const { register, handleSubmit } = useForm<EditEventData>({
+    defaultValues: event,
+  });
   const onSubmit = handleSubmit((data: EditEventData) => {
     if (dateValue === null) {
       alert('Select date and time');
       return;
     }
+    const editData: EditEventData = {
+      description: data.description,
+      location: data.location,
+      name: data.name,
+      maxAttendees: data.maxAttendees,
+      date: dateValue,
+      eventId: event?._id as string,
+    };
 
+    dispatch(editEventById(editData));
     navigate(Routes.MyEvents);
   });
 

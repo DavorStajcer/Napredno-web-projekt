@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AllEvents, Event } from 'models';
-import { fetchEventById, getAllFutureEvents, postEvent } from 'modules/event';
+import {
+  editEventById,
+  fetchEventById,
+  getAllFutureEvents,
+  postEvent,
+} from 'modules/event';
 import { RootState } from 'modules/redux-store';
 
 const initialState: AllEvents = {
@@ -76,13 +81,27 @@ export const eventSlice = createSlice({
       state.error = action.error.message;
     });
     builder.addCase(getAllFutureEvents.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
     });
     builder.addCase(getAllFutureEvents.fulfilled, (state, action) => {
       state.loading = false;
-      state.allEvents = action.payload.data.events;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
+      state.allEvents = action.payload.allEvents;
     });
     builder.addCase(getAllFutureEvents.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(editEventById.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(editEventById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.confirmation = action.payload.confirmation;
+      state.message = action.payload.message;
+    });
+    builder.addCase(editEventById.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });

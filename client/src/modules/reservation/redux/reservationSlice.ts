@@ -1,10 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AllEvents } from 'models';
+import { User } from 'models/user';
 
-const initialState: AllEvents = {
-  allEvents: [],
-  futureEvents: [],
-  passedEvents: [],
+const initialState: User = {
+  confirmation: '',
+  message: '',
+  data: {
+    admin: false,
+    email: '',
+    name: '',
+    password: '',
+    surname: '',
+    _id: '',
+    token: '',
+  },
   error: '',
   loading: false,
 };

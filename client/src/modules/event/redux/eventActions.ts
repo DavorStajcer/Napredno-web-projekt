@@ -6,7 +6,7 @@ import { API } from 'fixtures';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { DeleteEventData } from 'modules/event/consts/deleteEventData';
-import { Event } from 'models';
+import { AllEvents, Event } from 'models';
 
 const allEventsEndPoint = '/fetch-all';
 const fetchEventByIdEndpoint = '/api/event/fetch-one';
@@ -29,6 +29,7 @@ export const fetchEventById = createAsyncThunk(
         },
       );
       const data = response.data.data.event;
+
       return data as Event;
     } catch (error) {
       throw new Error('didnt send event');
@@ -62,8 +63,13 @@ export const getAllFutureEvents = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
+      const returnData = {
+        confirmation: data.confirmation as string,
+        message: data.message as string,
+        allEvents: data.data.events as Event[],
+      };
 
-      return data;
+      return returnData;
     } catch (error) {
       throw new Error('didnt send event');
     }
@@ -74,11 +80,12 @@ export const editEventById = createAsyncThunk(
   'event/editEventById',
   async (eventData: EditEventData) => {
     try {
+      const token = localStorage.getItem('token') as string;
       const response = await API.post(editEventEndpoint, eventData, {
-        headers: { Authorization: `Bearer ${eventData.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = response.data;
-      console.log('edit event by id response', data);
+
       return data;
     } catch (error) {
       throw new Error('didnt send event');

@@ -45,27 +45,11 @@ export class Event {
 
 export interface AllEvents {
   allEvents: Event[];
-  event?: Event;
+  event: Event;
   confirmation?: string;
   message?: string;
   futureEvents?: Event[];
   passedEvents: Event[];
-  loading: boolean;
-  error: string | unknown;
+  loading?: boolean;
+  error?: string | unknown;
 }
-
-/*
-export interface Event {
-  id: string;
-  imageUrl: string;
-  name: string;
-  description: string;
-  date: Date;
-  location: string;
-  numberOfSlots: number;
-  count: number;
-  adminName: string;
-  adminSurname: string;
-  adminId: string;
-}
-*/
