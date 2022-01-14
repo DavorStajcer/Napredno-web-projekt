@@ -1,6 +1,7 @@
 import { navigate } from '@reach/router';
-import { EventData, selectMyEvents } from 'modules/event';
+import { EditEventData, EventData, selectMyEvents } from 'modules/event';
 import {
+  editEventById,
   fetchUserEvents,
   getAllFutureEvents,
 } from 'modules/event/redux/eventActions';
@@ -22,6 +23,10 @@ export const useEvent = () => {
     dispatch(postEvent(data));
     navigate(Routes.Home);
   };
+  const editEvent = (editData: EditEventData) => {
+    dispatch(editEventById(editData));
+    navigate(Routes.MyEvents);
+  };
   const getEventById = (eventId: string) => {
     const response = allEvents.find((event) => event._id === eventId) as Event;
     return response;
@@ -32,5 +37,6 @@ export const useEvent = () => {
     createEvent,
     getEventById,
     getMyEvents,
+    editEvent,
   };
 };

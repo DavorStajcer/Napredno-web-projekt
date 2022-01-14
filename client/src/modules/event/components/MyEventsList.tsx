@@ -10,6 +10,7 @@ import {
   selectPassedEvents,
   useEvent,
   selectFutureEvents,
+  PassedEvent,
 } from 'modules/event';
 import { useSelector } from 'react-redux';
 import { FutureEvent } from 'modules/event/components/FutureEvent';
@@ -42,7 +43,7 @@ export const MyEventsList: React.FC = () => {
       <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
         <Grid container spacing={4}>
           {passedEvents.map((event) => (
-            <FutureEvent event={event} key={event._id} />
+            <PassedEvent event={event} key={event._id} />
           ))}
         </Grid>
       </Container>

@@ -1,36 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-import { useEffect, useState } from 'react';
-import {
-  editEventById,
-  EditEventData,
-  fetchEventById,
-  getAllFutureEvents,
-  selectEvent,
-  useEvent,
-} from 'modules/event';
+import { useState } from 'react';
+import { EditEventData, selectMyEvents, useEvent } from 'modules/event';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { navigate, useParams } from '@reach/router';
-import { Routes } from 'fixtures';
-import { RootState } from 'modules';
+import { useSelector } from 'react-redux';
+import { useParams } from '@reach/router';
 
 export const EditEventForm: React.FC = () => {
-  const dispatch = useDispatch();
   const params = useParams();
-  const fetchedEvent = useSelector(selectEvent);
-  useEffect(() => {
-    dispatch(fetchEventById(params.id as string));
-    console.log('fetched event', fetchedEvent);
-  }, []);
+  const { editEvent } = useEvent();
 
-  const myEvents = useSelector((state: RootState) => state.events.myEvents);
+  const myEvents = useSelector(selectMyEvents);
   const event = myEvents.find((event) => event._id === (params.id as string));
-  console.log('editting event', event);
   const [dateValue, setDateValue] = useState<Date | null>(event?.date as Date);
   const { register, handleSubmit } = useForm<EditEventData>({
     defaultValues: event,
@@ -48,9 +32,7 @@ export const EditEventForm: React.FC = () => {
       date: dateValue,
       eventId: event?._id as string,
     };
-    console.log('edit data form', editData);
-    dispatch(editEventById(editData));
-    navigate(Routes.MyEvents);
+    editEvent(editData);
   });
 
   return (
