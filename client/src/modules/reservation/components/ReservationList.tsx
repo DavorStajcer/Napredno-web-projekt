@@ -12,19 +12,27 @@ import { EventPreview, selectMyEvents, useEvent } from 'modules/event';
 import { Link } from '@reach/router';
 import { Routes } from 'fixtures';
 import { useSelector } from 'react-redux';
+import {
+  ReservationItem,
+  selectMyReservations,
+  useReservation,
+} from 'modules/reservation';
 
 export const ReservationList: React.FC = () => {
   const allEvents = useSelector(selectMyEvents);
-  // useEffect(() => {
-  //   getAllEvents();
-  // }, []);
+  const allReservations = useSelector(selectMyReservations);
+
+  const { getMyReservations } = useReservation();
+  useEffect(() => {
+    getMyReservations();
+  }, []);
   return (
     <React.Fragment>
       <GlobalStyles
         styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }}
       />
       <CssBaseline />
-      {allEvents.length !== 0 ? (
+      {allReservations.length !== 0 ? (
         <>
           <Container
             disableGutters
@@ -43,8 +51,8 @@ export const ReservationList: React.FC = () => {
           </Container>
           <Container sx={{ py: 5, pb: 5 }} maxWidth="md">
             <Grid container spacing={4}>
-              {allEvents.map((event) => (
-                <EventPreview event={event} key={event._id} />
+              {allReservations.map((event) => (
+                <ReservationItem event={event} key={event._id} />
               ))}
             </Grid>
           </Container>

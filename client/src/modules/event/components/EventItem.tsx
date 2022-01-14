@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Event } from 'models';
 import { useEvent } from 'modules/event';
+import { useReservation } from 'modules/reservation';
 
 interface Props {
   event: Event;
@@ -16,6 +17,10 @@ interface Props {
 
 export const EventItem: React.FC<Props> = ({ event }) => {
   const { formatDate } = useEvent();
+  const { createReservation } = useReservation();
+  const handleReservation = () => {
+    createReservation(event._id);
+  };
   return (
     <Grid item xs={12} sm={6}>
       <Card
@@ -48,7 +53,9 @@ export const EventItem: React.FC<Props> = ({ event }) => {
           <Typography>{event?.count}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Register to event</Button>
+          <Button size="small" onClick={handleReservation}>
+            Register to event
+          </Button>
         </CardActions>
       </Card>
     </Grid>
