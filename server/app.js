@@ -8,7 +8,7 @@ const userRoutes = require("./routes/user.routes.js");
 const reservationRoutes = require("./routes/reservation.routes.js");
 
 const MONGODB_URI =
-  "mongodb+srv://sandro:z6hE16hJP6wXx0zl@cluster0.zutnl.mongodb.net/OKPP-event-planner";
+  "mongodb+srv://dacalino:popovaca1234@cluster0.jqocpnp.mongodb.net/?retryWrites=true&w=majority";
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    app.listen(process.env.PORT || 5000);
+    app.listen(8000);
   })
   .catch((err) => {
     console.log(err);
