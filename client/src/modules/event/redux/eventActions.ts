@@ -10,6 +10,9 @@ const createEventEndpoint = '/api/event/create';
 const editEventEndpoint = '/api/event/edit';
 const deleteEventEndpoint = '/api/event/delete';
 const fetchUsersEventsEndpoint = '/api/event/fetch-users';
+function isEvent(data: Event): data is Event {
+  return (data as Event) !== undefined;
+}
 
 export const fetchEventById = createAsyncThunk(
   'event/fetchEventById',
@@ -23,7 +26,11 @@ export const fetchEventById = createAsyncThunk(
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-      const data = response.data.data.event;
+      const data: any = response.data.data.event;
+
+      if (isEvent(data)) {
+        console.log('is event');
+      }
 
       return data as Event;
     } catch (error) {

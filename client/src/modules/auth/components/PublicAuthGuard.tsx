@@ -10,6 +10,7 @@ export const PublicAuthGuard: React.FC = ({ children }) => {
 
   const authLoading = useSelector(selectAuthLoading);
   useEffect(() => {
+    console.log('izvrsit');
     if (token !== null) {
       navigate(Routes.Home);
     }

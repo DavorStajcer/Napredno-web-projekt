@@ -15,7 +15,7 @@ const render = () => {
 };
 
 render();
-
+//hot refresh
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./App', render);
 }

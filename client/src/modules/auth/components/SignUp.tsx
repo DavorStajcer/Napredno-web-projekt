@@ -27,6 +27,7 @@ export const SignUp: React.FC = () => {
       surname: data.surname,
       password: data.password,
     };
+    //const changedObject = {...registerData, password: 'dacalino'};
     registerWithEmailPassword(registerData);
   });
 
